@@ -1,0 +1,409 @@
+{
+  "id": "run_b",
+  "created_at": "2026-10-03T09:47:31Z",
+  "is_mock": true,
+  "previous_run_id": "run_a",
+  "input": {
+    "indication": "Crohn's disease",
+    "mechanism": "IL-17 inhibition",
+    "modality": "monoclonal antibody",
+    "stage": "Phase 1 complete (healthy volunteers)",
+    "biomarkers": ["fecal calprotectin", "CRP", "mucosal IL17A expression"],
+    "route": "subcutaneous"
+  },
+  "recommendation": "do_not_invest",
+  "confidence": 0.84,
+  "summary": "Genetics implicate the IL-23/Th17 axis, but direct interventional evidence contradicts IL-17 blockade as a Crohn's therapy. Randomized trials of secukinumab (anti-IL-17A) and brodalumab (anti-IL-17RA) in Crohn's disease showed no efficacy and higher rates of disease worsening than placebo, and IL-17 inhibitor labels now warn about new-onset or exacerbated IBD. Mechanistic work indicates IL-17A protects the intestinal epithelial barrier, which explains the divergence from IL-23 inhibition. Absent a differentiated mechanism, the thesis is not investable.",
+  "sections": [
+    {
+      "id": "sec_target_biology",
+      "title": "Target biology & human genetics",
+      "claims": [
+        {
+          "id": "clm_genetics_il23r",
+          "text": "Coding variants in IL23R (e.g. R381Q) are robustly associated with Crohn's disease risk, with the rare allele conferring protection.",
+          "kind": "source_fact",
+          "confidence": 0.95,
+          "evidence": [
+            { "evidence_id": "ev_duerr_2006", "stance": "supports" },
+            { "evidence_id": "ev_ot_il23r_cd", "stance": "supports" }
+          ]
+        },
+        {
+          "id": "clm_genetics_th17_loci",
+          "text": "Multiple Th17-pathway genes (IL23R, STAT3, JAK2, CCR6, TYK2) are among the >200 IBD susceptibility loci identified by GWAS meta-analysis.",
+          "kind": "source_fact",
+          "confidence": 0.92,
+          "evidence": [{ "evidence_id": "ev_jostins_2012", "stance": "supports" }]
+        },
+        {
+          "id": "clm_mucosal_il17",
+          "text": "IL-17A expression is elevated in inflamed mucosa and serum of patients with active Crohn's disease compared with controls.",
+          "kind": "source_fact",
+          "confidence": 0.85,
+          "evidence": [{ "evidence_id": "ev_fujino_2003", "stance": "supports" }]
+        },
+        {
+          "id": "clm_il17_barrier",
+          "text": "IL-17A produced independently of IL-23 by gut γδ T cells regulates occludin localization and maintains intestinal epithelial barrier integrity; its neutralization worsens barrier permeability in mouse colitis models.",
+          "kind": "source_fact",
+          "confidence": 0.82,
+          "evidence": [{ "evidence_id": "ev_lee_2015", "stance": "supports" }]
+        },
+        {
+          "id": "clm_moa_inference",
+          "text": "Given genetic implication of the Th17 axis and mucosal IL-17A overexpression, neutralizing IL-17A should reduce intestinal inflammation in Crohn's disease.",
+          "kind": "inference",
+          "confidence": 0.12,
+          "evidence": [
+            { "evidence_id": "ev_jostins_2012", "stance": "supports" },
+            { "evidence_id": "ev_fujino_2003", "stance": "supports" },
+            { "evidence_id": "ev_ot_il17a_cd", "stance": "supports" },
+            { "evidence_id": "ev_hueber_2012", "stance": "contradicts" },
+            { "evidence_id": "ev_targan_2016", "stance": "contradicts" },
+            { "evidence_id": "ev_lee_2015", "stance": "contradicts" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_clinical_precedent",
+      "title": "Clinical precedent",
+      "claims": [
+        {
+          "id": "clm_psoriasis_efficacy",
+          "text": "IL-17A inhibition (secukinumab, ixekizumab) achieved PASI 75 in roughly 77–90% of patients with moderate-to-severe plaque psoriasis in Phase 3 trials.",
+          "kind": "source_fact",
+          "confidence": 0.96,
+          "evidence": [
+            { "evidence_id": "ev_langley_2014", "stance": "supports" },
+            { "evidence_id": "ev_gordon_2016", "stance": "supports" }
+          ]
+        },
+        {
+          "id": "clm_il23_validated_cd",
+          "text": "Selective IL-23 p19 inhibition (risankizumab) induced and maintained clinical remission in moderate-to-severe Crohn's disease in Phase 3.",
+          "kind": "source_fact",
+          "confidence": 0.93,
+          "evidence": [{ "evidence_id": "ev_dhaens_2022", "stance": "supports" }]
+        },
+        {
+          "id": "clm_cross_indication_transfer",
+          "text": "Efficacy of IL-17 blockade in psoriasis and of IL-23 blockade in Crohn's suggests IL-17 blockade is likely to translate to Crohn's disease.",
+          "kind": "inference",
+          "confidence": 0.08,
+          "evidence": [
+            { "evidence_id": "ev_langley_2014", "stance": "supports" },
+            { "evidence_id": "ev_dhaens_2022", "stance": "supports" },
+            { "evidence_id": "ev_hueber_2012", "stance": "contradicts" },
+            { "evidence_id": "ev_targan_2016", "stance": "contradicts" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_crohns_trials",
+      "title": "Direct evidence: IL-17 blockade in Crohn's disease",
+      "claims": [
+        {
+          "id": "clm_secukinumab_cd_fail",
+          "text": "In a randomized, placebo-controlled proof-of-concept trial (n=59), secukinumab was ineffective in moderate-to-severe Crohn's disease and was associated with more adverse events and more patients with worsening disease than placebo.",
+          "kind": "source_fact",
+          "confidence": 0.93,
+          "evidence": [
+            { "evidence_id": "ev_nct01009281", "stance": "supports" },
+            { "evidence_id": "ev_hueber_2012", "stance": "supports" }
+          ]
+        },
+        {
+          "id": "clm_brodalumab_cd_fail",
+          "text": "A Phase 2 trial of brodalumab (anti-IL-17RA) in Crohn's disease was terminated early after disproportionate worsening of Crohn's disease in active arms, with no evidence of efficacy.",
+          "kind": "source_fact",
+          "confidence": 0.9,
+          "evidence": [
+            { "evidence_id": "ev_nct01150890", "stance": "supports" },
+            { "evidence_id": "ev_targan_2016", "stance": "supports" }
+          ]
+        },
+        {
+          "id": "clm_label_ibd_warning",
+          "text": "Approved IL-17 inhibitor labels carry a warning for new-onset or exacerbated inflammatory bowel disease, including Crohn's disease.",
+          "kind": "source_fact",
+          "confidence": 0.9,
+          "evidence": [{ "evidence_id": "ev_cosentyx_label", "stance": "supports" }]
+        },
+        {
+          "id": "clm_class_effect",
+          "text": "Failure with two distinct agents (ligand- and receptor-targeting) indicates a class effect of IL-17 pathway blockade in Crohn's disease, not a molecule-specific liability; a new anti-IL-17 antibody is unlikely to behave differently.",
+          "kind": "inference",
+          "confidence": 0.85,
+          "evidence": [
+            { "evidence_id": "ev_hueber_2012", "stance": "supports" },
+            { "evidence_id": "ev_targan_2016", "stance": "supports" },
+            { "evidence_id": "ev_lee_2015", "stance": "supports" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_market",
+      "title": "Market & positioning",
+      "claims": [
+        {
+          "id": "clm_unmet_need",
+          "text": "A substantial share of Crohn's patients lose response to or are refractory to anti-TNF and other advanced therapies, sustaining demand for new mechanisms.",
+          "kind": "source_fact",
+          "confidence": 0.8,
+          "evidence": [{ "evidence_id": "ev_ccf_overview", "stance": "supports" }]
+        },
+        {
+          "id": "clm_positioning",
+          "text": "A subcutaneous IL-17 antibody has no credible positioning in Crohn's disease: prior class failures and label warnings would make regulators, investigators and prescribers resistant, while IL-23 inhibitors already address the pathway.",
+          "kind": "inference",
+          "confidence": 0.78,
+          "evidence": [
+            { "evidence_id": "ev_dhaens_2022", "stance": "supports" },
+            { "evidence_id": "ev_cosentyx_label", "stance": "supports" },
+            { "evidence_id": "ev_ccf_overview", "stance": "supports" }
+          ]
+        }
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "rsk_translation",
+      "title": "Psoriasis-to-Crohn's translation risk",
+      "severity": "high",
+      "description": "Translation has already failed in randomized trials: IL-17 blockade did not work in Crohn's disease and worsened it in some patients, despite strong psoriasis efficacy.",
+      "claim_ids": ["clm_cross_indication_transfer", "clm_moa_inference", "clm_secukinumab_cd_fail", "clm_brodalumab_cd_fail"]
+    },
+    {
+      "id": "rsk_disease_worsening",
+      "title": "Patient harm / disease exacerbation",
+      "severity": "high",
+      "description": "Neutralizing IL-17A may compromise epithelial barrier integrity, consistent with observed flares in trials and label warnings. Expect heightened regulatory scrutiny and restrictive stopping rules.",
+      "claim_ids": ["clm_il17_barrier", "clm_label_ibd_warning", "clm_class_effect"]
+    },
+    {
+      "id": "rsk_competition",
+      "title": "Competitive pressure from IL-23 inhibitors",
+      "severity": "high",
+      "description": "IL-23 inhibitors capture the genetically validated part of the Th17 axis without blocking barrier-protective, IL-23-independent IL-17A, which leaves no differentiated room for an IL-17 agent.",
+      "claim_ids": ["clm_il23_validated_cd", "clm_positioning"]
+    },
+    {
+      "id": "rsk_biomarker",
+      "title": "Unvalidated enrichment biomarker",
+      "severity": "low",
+      "description": "Mucosal IL17A expression as a selection biomarker has no prospective validation; assay logistics in endoscopic biopsies may slow enrolment.",
+      "claim_ids": ["clm_mucosal_il17"]
+    }
+  ],
+  "unknowns": [
+    "Whether any IL-17 isoform-selective approach (e.g. IL-17F-only) avoids the barrier liability.",
+    "Whether a narrowly defined Crohn's subpopulation benefits from IL-17 blockade; no post-hoc responder signal has been published.",
+    "Dose required for adequate gut tissue exposure vs. skin.",
+    "Freedom-to-operate around existing anti-IL-17A antibody patents."
+  ],
+  "diligence_questions": [
+    {
+      "question": "How does the sponsor explain the secukinumab and brodalumab Crohn's results, and what data shows their antibody avoids the same outcome?",
+      "requires": "proprietary_data"
+    },
+    {
+      "question": "Would gastroenterology KOLs and IRBs support enrolling Crohn's patients in an IL-17 trial given the label warnings?",
+      "requires": "kol"
+    },
+    {
+      "question": "Do patient-level data from prior IL-17 Crohn's trials show any subgroup with benefit (e.g. by location, prior anti-TNF exposure)?",
+      "requires": "patient_data"
+    },
+    {
+      "question": "In human intestinal organoids, does this antibody disrupt occludin localization or barrier permeability at clinically relevant exposures?",
+      "requires": "experiment"
+    },
+    {
+      "question": "Could the asset be repositioned to an indication where IL-17 is validated (e.g. hidradenitis suppurativa) without IP conflicts?",
+      "requires": "cmc_ip"
+    }
+  ],
+  "capital": {
+    "milestone": "Preclinical de-risking only: organoid barrier-safety package and KOL/regulatory feedback before any Crohn's clinical spend",
+    "months_low": 6,
+    "months_high": 10,
+    "usd_low": 1500000,
+    "usd_base": 2500000,
+    "usd_high": 4000000,
+    "assumptions": [
+      "No Phase 2 Crohn's capital is underwritten given prior class failures",
+      "Human intestinal organoid and ex vivo biopsy barrier assays at a CRO",
+      "Access to patient-level data from prior IL-17 Crohn's trials is not assumed",
+      "Repositioning to a validated IL-17 indication would require a separate underwriting run"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "ev_duerr_2006",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17068223/",
+      "title": "A genome-wide association study identifies IL23R as an inflammatory bowel disease gene",
+      "snippet": "An uncommon coding variant (rs11209026, c.1142G>A, p.Arg381Gln) in IL23R confers strong protection against Crohn's disease.",
+      "kind": "literature",
+      "modules": ["genetics", "target_biology"],
+      "retrieved_at": "2026-10-03T09:38:12Z"
+    },
+    {
+      "id": "ev_jostins_2012",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23128233/",
+      "title": "Host-microbe interactions have shaped the genetic architecture of inflammatory bowel disease",
+      "snippet": "Meta-analysis identifies 163 IBD loci; implicated genes are enriched for IL-23/Th17 signalling including IL23R, JAK2, STAT3 and CCR6.",
+      "kind": "literature",
+      "modules": ["genetics"],
+      "retrieved_at": "2026-10-03T09:38:15Z"
+    },
+    {
+      "id": "ev_ot_il23r_cd",
+      "source": "Open Targets Platform",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000162594/EFO_0000384",
+      "title": "IL23R – Crohn's disease association evidence",
+      "snippet": "Overall association score 0.78; dominated by GWAS associations and genetic literature.",
+      "kind": "record",
+      "modules": ["genetics"],
+      "retrieved_at": "2026-10-03T09:37:40Z"
+    },
+    {
+      "id": "ev_ot_il17a_cd",
+      "source": "Open Targets Platform",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000112115/EFO_0000384",
+      "title": "IL17A – Crohn's disease association evidence",
+      "snippet": "Overall association score 0.41; evidence driven mainly by literature mining and animal models, with weak direct genetic association.",
+      "kind": "record",
+      "modules": ["genetics", "target_biology"],
+      "retrieved_at": "2026-10-03T09:37:42Z"
+    },
+    {
+      "id": "ev_fujino_2003",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12584224/",
+      "title": "Increased expression of interleukin 17 in inflammatory bowel disease",
+      "snippet": "IL-17 transcripts and IL-17+ cells were increased in the inflamed mucosa of patients with active Crohn's disease and ulcerative colitis.",
+      "kind": "literature",
+      "modules": ["target_biology"],
+      "retrieved_at": "2026-10-03T09:38:40Z"
+    },
+    {
+      "id": "ev_lee_2015",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/26431948/",
+      "title": "Interleukin-23-independent IL-17 production regulates intestinal epithelial permeability",
+      "snippet": "γδ T cell–derived IL-17A, produced independently of IL-23, regulates occludin and protects epithelial barrier integrity; anti-IL-17 treatment exacerbated colitis-associated barrier damage.",
+      "kind": "conflict",
+      "modules": ["target_biology", "safety"],
+      "retrieved_at": "2026-10-03T09:41:05Z"
+    },
+    {
+      "id": "ev_langley_2014",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25007392/",
+      "title": "Secukinumab in plaque psoriasis — results of two phase 3 trials",
+      "snippet": "ERASURE and FIXTURE: PASI 75 at week 12 achieved by 75.9–81.6% with secukinumab 300 mg vs 4.5–4.9% with placebo.",
+      "kind": "literature",
+      "modules": ["clinical_precedent"],
+      "retrieved_at": "2026-10-03T09:39:22Z"
+    },
+    {
+      "id": "ev_gordon_2016",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27299809/",
+      "title": "Phase 3 trials of ixekizumab in moderate-to-severe plaque psoriasis",
+      "snippet": "UNCOVER-1/2/3: PASI 75 at week 12 in 87–90% of patients receiving ixekizumab every 2 weeks.",
+      "kind": "literature",
+      "modules": ["clinical_precedent"],
+      "retrieved_at": "2026-10-03T09:39:25Z"
+    },
+    {
+      "id": "ev_dhaens_2022",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35644155/",
+      "title": "Risankizumab as induction therapy for Crohn's disease: results from the phase 3 ADVANCE and MOTIVATE induction trials",
+      "snippet": "Risankizumab achieved significantly higher rates of clinical remission and endoscopic response at week 12 versus placebo.",
+      "kind": "literature",
+      "modules": ["clinical_precedent", "competitive_landscape"],
+      "retrieved_at": "2026-10-03T09:39:51Z"
+    },
+    {
+      "id": "ev_nct01009281",
+      "source": "ClinicalTrials.gov",
+      "url": "https://clinicaltrials.gov/study/NCT01009281",
+      "title": "Proof of concept study of AIN457 (secukinumab) in patients with moderate to severe Crohn's disease",
+      "snippet": "Randomized, double-blind, placebo-controlled Phase 2 study. Status: Completed. Primary endpoint: change in CDAI at week 6.",
+      "kind": "record",
+      "modules": ["clinical_precedent", "crohns_trials"],
+      "retrieved_at": "2026-10-03T09:40:18Z"
+    },
+    {
+      "id": "ev_hueber_2012",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22595313/",
+      "title": "Secukinumab, a human anti-IL-17A monoclonal antibody, for moderate to severe Crohn's disease: unexpected results of a randomised, double-blind placebo-controlled trial",
+      "snippet": "The trial was stopped for futility. Secukinumab was ineffective and associated with higher rates of adverse events compared with placebo; more patients worsened on active treatment.",
+      "kind": "conflict",
+      "modules": ["clinical_precedent", "crohns_trials", "safety"],
+      "retrieved_at": "2026-10-03T09:40:26Z"
+    },
+    {
+      "id": "ev_nct01150890",
+      "source": "ClinicalTrials.gov",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "title": "A study of AMG 827 (brodalumab) in subjects with moderate to severe Crohn's disease",
+      "snippet": "Phase 2, randomized, placebo-controlled dose-ranging study. Status: Terminated.",
+      "kind": "record",
+      "modules": ["clinical_precedent", "crohns_trials"],
+      "retrieved_at": "2026-10-03T09:40:33Z"
+    },
+    {
+      "id": "ev_targan_2016",
+      "source": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27481309/",
+      "title": "A randomized, double-blind, placebo-controlled phase 2 study of brodalumab in patients with moderate-to-severe Crohn's disease",
+      "snippet": "The study was terminated early due to a disproportionate number of cases of worsening Crohn's disease in the brodalumab arms; no meaningful efficacy was observed.",
+      "kind": "conflict",
+      "modules": ["clinical_precedent", "crohns_trials", "safety"],
+      "retrieved_at": "2026-10-03T09:40:41Z"
+    },
+    {
+      "id": "ev_cosentyx_label",
+      "source": "FDA Prescribing Information",
+      "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/125504s069lbl.pdf",
+      "title": "COSENTYX (secukinumab) prescribing information — Warnings and Precautions",
+      "snippet": "Inflammatory Bowel Disease: cases of IBD, in some cases serious, have been reported. Exercise caution when prescribing to patients with IBD and monitor for onset or exacerbation.",
+      "kind": "web",
+      "modules": ["safety", "crohns_trials"],
+      "retrieved_at": "2026-10-03T09:42:02Z"
+    },
+    {
+      "id": "ev_ccf_overview",
+      "source": "Crohn's & Colitis Foundation",
+      "url": "https://www.crohnscolitisfoundation.org/what-is-crohns-disease/overview",
+      "title": "Overview of Crohn's disease",
+      "snippet": "Crohn's disease is a chronic inflammatory condition of the GI tract; many patients cycle through multiple therapies over the course of disease.",
+      "kind": "web",
+      "modules": ["market"],
+      "retrieved_at": "2026-10-03T09:42:20Z"
+    }
+  ],
+  "traces": [
+    { "agent": "planner", "step": "decompose_question", "input_tokens": 1860, "output_tokens": 655, "latency_s": 4.3, "cost_usd": 0.0254 },
+    { "agent": "retriever", "step": "genetics_lookup", "tool": "opentargets.associations", "input_tokens": 920, "output_tokens": 310, "latency_s": 2.6, "cost_usd": 0.0074 },
+    { "agent": "retriever", "step": "literature_search", "tool": "pubmed.search", "input_tokens": 3480, "output_tokens": 790, "latency_s": 8.1, "cost_usd": 0.0223 },
+    { "agent": "retriever", "step": "trial_registry_search", "tool": "clinicaltrials.search", "input_tokens": 2140, "output_tokens": 460, "latency_s": 5.2, "cost_usd": 0.0133 },
+    { "agent": "retriever", "step": "web_search", "tool": "web.search", "input_tokens": 1720, "output_tokens": 330, "latency_s": 4.4, "cost_usd": 0.0101 },
+    { "agent": "evidence_grader", "step": "grade_evidence", "input_tokens": 15400, "output_tokens": 2680, "latency_s": 27.9, "cost_usd": 0.0864 },
+    { "agent": "conflict_detector", "step": "detect_contradictions", "input_tokens": 13100, "output_tokens": 1540, "latency_s": 19.6, "cost_usd": 0.0624 },
+    { "agent": "analyst", "step": "draft_sections", "input_tokens": 19800, "output_tokens": 5120, "latency_s": 55.7, "cost_usd": 0.1362 },
+    { "agent": "critic", "step": "challenge_inferences", "input_tokens": 16300, "output_tokens": 1910, "latency_s": 22.4, "cost_usd": 0.0776 },
+    { "agent": "underwriter", "step": "recommend_and_size_capital", "input_tokens": 17200, "output_tokens": 2480, "latency_s": 29.8, "cost_usd": 0.0888 }
+  ]
+}
