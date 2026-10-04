@@ -1,8 +1,9 @@
-import { AnimatePresence, motion, type Variants } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronRight, ShieldCheck, Scale, type LucideIcon } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import PipelineRun from '../components/pipeline/PipelineRun'
+import { rise, stagger } from '../lib/motion'
 import { RESULT_RUN_ID } from '../pipeline.config'
 import type { ReportInput } from '../types'
 
@@ -72,16 +73,6 @@ function toReportInput(form: FormState): ReportInput {
     .filter(Boolean)
   if (biomarkers.length) input.biomarkers = biomarkers
   return input
-}
-
-const stagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-}
-
-const rise: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
 }
 
 export default function NewAnalysis() {
