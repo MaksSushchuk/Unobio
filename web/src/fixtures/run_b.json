@@ -18,6 +18,7 @@
     {
       "id": "sec_target_biology",
       "title": "Target biology & human genetics",
+      "summary": "Genetics implicate the IL-23/Th17 axis, but IL-23-independent IL-17A protects the intestinal epithelial barrier, so blocking IL-17A is not equivalent to blocking the pathway.",
       "claims": [
         {
           "id": "clm_genetics_il23r",
@@ -69,6 +70,7 @@
     {
       "id": "sec_clinical_precedent",
       "title": "Clinical precedent",
+      "summary": "Psoriasis efficacy and IL-23 success in Crohn's disease no longer support a transfer argument once direct Crohn's trial data are considered.",
       "claims": [
         {
           "id": "clm_psoriasis_efficacy",
@@ -104,6 +106,7 @@
     {
       "id": "sec_crohns_trials",
       "title": "Direct evidence: IL-17 blockade in Crohn's disease",
+      "summary": "Randomized trials of a ligand- and a receptor-targeting agent both failed in Crohn's disease and worsened disease in some patients, and class labels now warn about IBD. This points to a class effect.",
       "claims": [
         {
           "id": "clm_secukinumab_cd_fail",
@@ -122,7 +125,9 @@
           "confidence": 0.9,
           "evidence": [
             { "evidence_id": "ev_nct01150890", "stance": "supports" },
-            { "evidence_id": "ev_targan_2016", "stance": "supports" }
+            { "evidence_id": "ev_targan_2016", "stance": "supports" },
+            { "evidence_id": "ev_conflict_brodalumab_status", "stance": "supports" },
+            { "evidence_id": "ev_pipeline_brodalumab_cd", "stance": "contradicts" }
           ]
         },
         {
@@ -148,6 +153,7 @@
     {
       "id": "sec_market",
       "title": "Market & positioning",
+      "summary": "Unmet need persists, but class failures, label warnings and approved IL-23 inhibitors leave no credible position for an IL-17 antibody in Crohn's disease.",
       "claims": [
         {
           "id": "clm_unmet_need",
@@ -209,22 +215,27 @@
   "diligence_questions": [
     {
       "question": "How does the sponsor explain the secukinumab and brodalumab Crohn's results, and what data shows their antibody avoids the same outcome?",
+      "rationale": "Two class failures set the default expectation; the case depends on a concrete, data-backed reason this antibody would behave differently.",
       "requires": "proprietary_data"
     },
     {
       "question": "Would gastroenterology KOLs and IRBs support enrolling Crohn's patients in an IL-17 trial given the label warnings?",
+      "rationale": "Label warnings may make sites and IRBs unwilling to enrol, which would stall the program even if the science were sound.",
       "requires": "kol"
     },
     {
       "question": "Do patient-level data from prior IL-17 Crohn's trials show any subgroup with benefit (e.g. by location, prior anti-TNF exposure)?",
+      "rationale": "A responder subgroup is the only plausible path to a Crohn's indication given the overall negative trials.",
       "requires": "patient_data"
     },
     {
       "question": "In human intestinal organoids, does this antibody disrupt occludin localization or barrier permeability at clinically relevant exposures?",
+      "rationale": "Barrier disruption is the proposed mechanism of harm; an organoid assay tests it directly and cheaply before any clinical spend.",
       "requires": "experiment"
     },
     {
       "question": "Could the asset be repositioned to an indication where IL-17 is validated (e.g. hidradenitis suppurativa) without IP conflicts?",
+      "rationale": "If Crohn's disease is not viable, the asset's value depends on an indication where IL-17 blockade already works and on freedom to operate there.",
       "requires": "cmc_ip"
     }
   ],
@@ -301,7 +312,8 @@
       "snippet": "γδ T cell–derived IL-17A, produced independently of IL-23, regulates occludin and protects epithelial barrier integrity; anti-IL-17 treatment exacerbated colitis-associated barrier damage.",
       "kind": "conflict",
       "modules": ["target_biology", "safety"],
-      "retrieved_at": "2026-10-03T09:41:05Z"
+      "retrieved_at": "2026-10-03T09:41:05Z",
+      "related_evidence_ids": ["ev_fujino_2003"]
     },
     {
       "id": "ev_langley_2014",
@@ -351,7 +363,8 @@
       "snippet": "The trial was stopped for futility. Secukinumab was ineffective and associated with higher rates of adverse events compared with placebo; more patients worsened on active treatment.",
       "kind": "conflict",
       "modules": ["clinical_precedent", "crohns_trials", "safety"],
-      "retrieved_at": "2026-10-03T09:40:26Z"
+      "retrieved_at": "2026-10-03T09:40:26Z",
+      "related_evidence_ids": ["ev_langley_2014"]
     },
     {
       "id": "ev_nct01150890",
@@ -364,6 +377,27 @@
       "retrieved_at": "2026-10-03T09:40:33Z"
     },
     {
+      "id": "ev_pipeline_brodalumab_cd",
+      "source": "Pipeline tracker (web)",
+      "url": "https://example.com/pipeline/brodalumab-crohns-disease",
+      "title": "Brodalumab — Crohn's disease program listing",
+      "snippet": "Indication: Crohn's disease. Phase: 2. Status: Active.",
+      "kind": "web",
+      "modules": ["crohns_trials", "competitive_landscape"],
+      "retrieved_at": "2026-10-03T09:42:41Z"
+    },
+    {
+      "id": "ev_conflict_brodalumab_status",
+      "source": "Conflict detector",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "title": "Status mismatch: brodalumab Crohn's disease program",
+      "snippet": "A pipeline listing reports the brodalumab Crohn's program as active (Phase 2), while ClinicalTrials.gov NCT01150890 lists the study as Terminated. The registry record is treated as authoritative; the listing appears stale.",
+      "kind": "conflict",
+      "modules": ["crohns_trials", "conflict_detection"],
+      "retrieved_at": "2026-10-03T09:43:10Z",
+      "related_evidence_ids": ["ev_pipeline_brodalumab_cd", "ev_nct01150890"]
+    },
+    {
       "id": "ev_targan_2016",
       "source": "PubMed",
       "url": "https://pubmed.ncbi.nlm.nih.gov/27481309/",
@@ -371,7 +405,8 @@
       "snippet": "The study was terminated early due to a disproportionate number of cases of worsening Crohn's disease in the brodalumab arms; no meaningful efficacy was observed.",
       "kind": "conflict",
       "modules": ["clinical_precedent", "crohns_trials", "safety"],
-      "retrieved_at": "2026-10-03T09:40:41Z"
+      "retrieved_at": "2026-10-03T09:40:41Z",
+      "related_evidence_ids": ["ev_dhaens_2022"]
     },
     {
       "id": "ev_cosentyx_label",

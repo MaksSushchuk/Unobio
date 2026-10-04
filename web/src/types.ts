@@ -45,6 +45,8 @@ export interface Claim {
 export interface Section {
   id: string
   title: string
+  /** 1–2 sentence thesis for the section. */
+  summary?: string
   claims: Claim[]
 }
 
@@ -59,6 +61,8 @@ export interface Evidence {
   modules: string[]
   /** ISO 8601 */
   retrieved_at: string
+  /** For kind "conflict": ids of the other evidence items in the disagreement (never this item itself). */
+  related_evidence_ids?: string[]
 }
 
 export interface Risk {
@@ -71,6 +75,8 @@ export interface Risk {
 
 export interface DiligenceQuestion {
   question: string
+  /** Why the question matters for the decision. */
+  rationale: string
   requires: DiligenceRequirement
 }
 

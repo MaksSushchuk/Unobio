@@ -18,6 +18,7 @@
     {
       "id": "sec_target_biology",
       "title": "Target biology & human genetics",
+      "summary": "Human genetics firmly implicate the IL-23/Th17 axis in Crohn's disease, and IL-17A is overexpressed in inflamed mucosa. That neutralizing IL-17A itself is therapeutic is inferred, not shown.",
       "claims": [
         {
           "id": "clm_genetics_il23r",
@@ -59,6 +60,7 @@
     {
       "id": "sec_clinical_precedent",
       "title": "Clinical precedent",
+      "summary": "IL-17 blockade is highly effective in psoriasis and IL-23 blockade is validated in Crohn's disease. Transfer of IL-17 efficacy to the gut is assumed from these precedents.",
       "claims": [
         {
           "id": "clm_psoriasis_efficacy",
@@ -92,6 +94,7 @@
     {
       "id": "sec_market",
       "title": "Market & positioning",
+      "summary": "Unmet need after anti-TNF failure is real, but an IL-17 agent would enter behind approved IL-23 inhibitors and needs a differentiated later-line position.",
       "claims": [
         {
           "id": "clm_unmet_need",
@@ -145,22 +148,27 @@
   "diligence_questions": [
     {
       "question": "Has the company or any competitor run IL-17 pathway inhibitors in IBD patients, and what were the outcomes?",
+      "rationale": "No interventional IBD data was retrieved in this run; prior IL-17 experience in IBD would decide whether psoriasis efficacy transfers to the gut.",
       "requires": "kol"
     },
     {
       "question": "What does the sponsor's ex vivo biopsy data show for IL-17A neutralization on epithelial barrier integrity?",
+      "rationale": "A possible barrier-protective role of IL-17A is the main mechanistic unknown; data showing no barrier disruption would de-risk the gut-specific biology.",
       "requires": "proprietary_data"
     },
     {
       "question": "What fraction of moderate-to-severe CD patients in target sites are Th17-high by mucosal IL17A expression?",
+      "rationale": "The enrichment strategy only works if Th17-high patients are a large enough share of the population to enrol on time.",
       "requires": "patient_data"
     },
     {
       "question": "Does the antibody's epitope and sequence clear existing secukinumab/ixekizumab composition-of-matter claims?",
+      "rationale": "Crowded anti-IL-17A IP could block commercialization regardless of clinical outcome.",
       "requires": "cmc_ip"
     },
     {
       "question": "Can a DSS or T-cell transfer colitis model distinguish this antibody's effect from IL-23 blockade?",
+      "rationale": "Without differentiation from approved IL-23 inhibitors, even a positive Phase 2a would face a weak commercial case.",
       "requires": "experiment"
     }
   ],
