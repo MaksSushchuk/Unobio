@@ -6,3 +6,7 @@ __pycache__/
 .venv/
 node_modules/
 dist/
+server/evidence_bundle/runs/
+server/.cache/
+*.egg-info/
+.pytest_cache/

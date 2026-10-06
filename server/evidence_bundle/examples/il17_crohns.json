@@ -1,0 +1,429 @@
+{
+  "run_id": "example-20261005T164000Z-crohn-s-disease-il-17-inhibition",
+  "created_at": "2026-10-05T16:40:00Z",
+  "is_example": true,
+  "input": {
+    "indication": "Crohn's disease",
+    "mechanism": "IL-17 inhibition",
+    "modality": "monoclonal antibody",
+    "stage": null,
+    "biomarkers": null,
+    "route": "subcutaneous",
+    "evidence_cutoff": null
+  },
+  "subject": {
+    "indication": "Crohn's disease",
+    "mechanism": "IL-17 inhibition",
+    "disease_ids": [
+      "MONDO_0005011"
+    ],
+    "disease_synonyms": [
+      "Crohn disease",
+      "Crohn's disease",
+      "regional enteritis"
+    ],
+    "target_ids": [
+      "ENSG00000112115",
+      "ENSG00000177663"
+    ],
+    "target_symbols": [
+      "IL17A",
+      "IL17RA"
+    ],
+    "drugs": [
+      {
+        "chembl_id": "CHEMBL1743068",
+        "name": "SECUKINUMAB",
+        "synonyms": [
+          "AIN457",
+          "Cosentyx"
+        ],
+        "max_phase": 4.0,
+        "origin": "both",
+        "target_ids": [
+          "ENSG00000112115"
+        ]
+      },
+      {
+        "chembl_id": "CHEMBL1742996",
+        "name": "BRODALUMAB",
+        "synonyms": [
+          "AMG 827"
+        ],
+        "max_phase": 4.0,
+        "origin": "plan",
+        "target_ids": [
+          "ENSG00000177663"
+        ]
+      },
+      {
+        "chembl_id": "CHEMBL1743034",
+        "name": "IXEKIZUMAB",
+        "synonyms": [],
+        "max_phase": 4.0,
+        "origin": "database",
+        "target_ids": [
+          "ENSG00000112115"
+        ]
+      }
+    ],
+    "resolution_notes": [
+      "added target IL17RA (ENSG00000177663): mechanism target of planned drug BRODALUMAB, linked to IL17A in Reactome"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "ce57aedf245014f4",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design",
+        "competitive-landscape",
+        "red-flags"
+      ],
+      "entity_refs": {
+        "nct_id": "NCT01150890",
+        "chembl_id": "CHEMBL1742996",
+        "disease_id": "MONDO_0005011"
+      },
+      "title": "Brodalumab (AMG 827) in Adults With Moderate to Severe Crohn's Disease",
+      "snippet": "Phase 2, Amgen. TERMINATED: The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups.",
+      "data": {
+        "overallStatus": "TERMINATED",
+        "whyStopped": "The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups",
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": {
+          "count": 130,
+          "type": "ACTUAL"
+        },
+        "leadSponsor": "Amgen",
+        "startDate": "2010-11-09",
+        "completionDate": "2011-10-15"
+      },
+      "related_evidence_ids": [
+        "89ea0e1c40b86315"
+      ],
+      "published_at": null
+    },
+    {
+      "id": "f7301e04794691a4",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT00584740",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design",
+        "competitive-landscape",
+        "red-flags"
+      ],
+      "entity_refs": {
+        "nct_id": "NCT00584740",
+        "chembl_id": "CHEMBL1743068",
+        "disease_id": "MONDO_0005011"
+      },
+      "title": "Efficacy, Safety and Tolerability of AIN457 in Moderate to Severe Active Crohn's Disease",
+      "snippet": "Phase 2, Novartis. TERMINATED: The study was terminated prematurely after futility criterion was met at planned interim analysis of 41 patients.",
+      "data": {
+        "overallStatus": "TERMINATED",
+        "whyStopped": "The study was terminated prematurely after futility criterion was met at planned interim analysis of 41 patients.",
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": {
+          "count": 59,
+          "type": "ACTUAL"
+        },
+        "leadSponsor": "Novartis Pharmaceuticals",
+        "completionDate": "2010-08"
+      },
+      "related_evidence_ids": [
+        "cbae4c745c1a341d"
+      ],
+      "published_at": null
+    },
+    {
+      "id": "cbae4c745c1a341d",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22595313/",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags"
+      ],
+      "entity_refs": {
+        "pmid": "22595313",
+        "doi": "10.1136/gutjnl-2011-301668",
+        "chembl_id": "CHEMBL1743068"
+      },
+      "title": "Secukinumab, a human anti-IL-17A monoclonal antibody, for moderate to severe Crohn's disease: unexpected results of a randomised, double-blind placebo-controlled trial.",
+      "snippet": "Randomised placebo-controlled phase 2 of secukinumab in active Crohn's disease; IL-17A blockade was ineffective and associated with more adverse events than placebo.",
+      "data": {
+        "journal": "Gut",
+        "pubdate": "2012 Dec"
+      },
+      "related_evidence_ids": [
+        "f7301e04794691a4"
+      ],
+      "published_at": "2012-12-01"
+    },
+    {
+      "id": "89ea0e1c40b86315",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27481309/",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags"
+      ],
+      "entity_refs": {
+        "pmid": "27481309",
+        "doi": "10.1038/ajg.2016.298",
+        "chembl_id": "CHEMBL1742996"
+      },
+      "title": "A Randomized, Double-Blind, Placebo-Controlled Phase 2 Study of Brodalumab in Patients With Moderate-to-Severe Crohn's Disease.",
+      "snippet": "Phase 2 of the IL-17RA antibody brodalumab in Crohn's disease, stopped early for disproportionate worsening of Crohn's disease in active arms; no meaningful efficacy signal.",
+      "data": {
+        "journal": "Am J Gastroenterol",
+        "pubdate": "2016 Nov"
+      },
+      "related_evidence_ids": [
+        "ce57aedf245014f4"
+      ],
+      "published_at": "2016-11-01"
+    },
+    {
+      "id": "b84c28d8b2ea9238",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000112115/MONDO_0005011",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "entity_refs": {
+        "target_id": "ENSG00000112115",
+        "disease_id": "MONDO_0005011"
+      },
+      "title": "IL17A – Crohn disease association (Open Targets)",
+      "snippet": "Overall association score 0.100; driven mainly by literature (0.503), with weaker clinical (0.137) and RNA expression (0.126) evidence.",
+      "data": {
+        "score": 0.1001451889976167,
+        "datatypeScores": [
+          {
+            "id": "literature",
+            "score": 0.5028778041248134
+          },
+          {
+            "id": "rna_expression",
+            "score": 0.12613103538288142
+          },
+          {
+            "id": "clinical",
+            "score": 0.13678442946261474
+          }
+        ]
+      },
+      "related_evidence_ids": [],
+      "published_at": null
+    },
+    {
+      "id": "ce3abb220e73afcc",
+      "source": "openfda",
+      "url": "https://api.fda.gov/drug/label.json?search=set_id:77c4b13e-7df3-42d4-81db-3d0cddb7f67a",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "record",
+      "modules": [
+        "red-flags",
+        "patient-population"
+      ],
+      "entity_refs": {
+        "set_id": "77c4b13e-7df3-42d4-81db-3d0cddb7f67a",
+        "chembl_id": "CHEMBL1743068"
+      },
+      "title": "COSENTYX (secukinumab) US label – Warnings and Precautions",
+      "snippet": "Inflammatory Bowel Disease (IBD): Cases of IBD were observed in clinical trials. Exercise caution when prescribing COSENTYX to patients with IBD. (5.4)",
+      "data": {
+        "brand_name": [
+          "COSENTYX"
+        ],
+        "effective_time": "20260825",
+        "section": "warnings_and_cautions"
+      },
+      "related_evidence_ids": [],
+      "published_at": "2026-08-25"
+    },
+    {
+      "id": "242e3a61c0de4fcd",
+      "source": "conflict",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "retrieved_at": "2026-10-05T16:40:00Z",
+      "kind": "conflict",
+      "modules": [
+        "scientific-evidence",
+        "red-flags"
+      ],
+      "entity_refs": {
+        "target_id": "ENSG00000112115",
+        "disease_id": "MONDO_0005011"
+      },
+      "title": "Mechanistic rationale for IL-17 blockade in Crohn's vs. clinical worsening in two phase 2 trials",
+      "snippet": "IL17A is associated with Crohn's disease (Open Targets, mostly literature-driven), but both anti-IL-17A (secukinumab) and anti-IL-17RA (brodalumab) trials were terminated, with signals of disease worsening; the US secukinumab label carries an IBD warning.",
+      "data": {
+        "supporting": [
+          "b84c28d8b2ea9238"
+        ],
+        "contradicting": [
+          "ce57aedf245014f4",
+          "f7301e04794691a4",
+          "cbae4c745c1a341d",
+          "89ea0e1c40b86315",
+          "ce3abb220e73afcc"
+        ]
+      },
+      "related_evidence_ids": [
+        "b84c28d8b2ea9238",
+        "ce57aedf245014f4",
+        "f7301e04794691a4",
+        "cbae4c745c1a341d",
+        "89ea0e1c40b86315",
+        "ce3abb220e73afcc"
+      ],
+      "published_at": null
+    }
+  ],
+  "coverage": [
+    {
+      "id": "trials_found",
+      "question": "Has this mechanism been tested in this indication in clinical trials?",
+      "module": "pipeline",
+      "status": "covered",
+      "public_answerable": true,
+      "requires": [],
+      "evidence_ids": [
+        "ce57aedf245014f4",
+        "f7301e04794691a4"
+      ],
+      "note": null
+    },
+    {
+      "id": "stopped_trials_explained",
+      "question": "Were any trials terminated or failed, and why?",
+      "module": "red-flags",
+      "status": "covered",
+      "public_answerable": true,
+      "requires": [],
+      "evidence_ids": [
+        "ce57aedf245014f4",
+        "f7301e04794691a4",
+        "cbae4c745c1a341d",
+        "89ea0e1c40b86315"
+      ],
+      "note": null
+    },
+    {
+      "id": "genetic_support",
+      "question": "Is there human genetic or mechanistic support for the target in the disease?",
+      "module": "scientific-evidence",
+      "status": "covered",
+      "public_answerable": true,
+      "requires": [],
+      "evidence_ids": [
+        "b84c28d8b2ea9238"
+      ],
+      "note": null
+    },
+    {
+      "id": "target_safety",
+      "question": "Are there class safety warnings relevant to the indication?",
+      "module": "red-flags",
+      "status": "covered",
+      "public_answerable": true,
+      "requires": [],
+      "evidence_ids": [
+        "ce3abb220e73afcc"
+      ],
+      "note": null
+    },
+    {
+      "id": "source_conflicts",
+      "question": "Do sources disagree on the mechanism's promise?",
+      "module": "red-flags",
+      "status": "covered",
+      "public_answerable": true,
+      "requires": [],
+      "evidence_ids": [
+        "242e3a61c0de4fcd"
+      ],
+      "note": null
+    },
+    {
+      "id": "ip_freedom_to_operate",
+      "question": "What is the patent landscape for IL-17 agents?",
+      "module": "patent-ip",
+      "status": "not_public",
+      "public_answerable": false,
+      "requires": [
+        "cmc_ip"
+      ],
+      "evidence_ids": [],
+      "note": null
+    },
+    {
+      "id": "cmc_manufacturability",
+      "question": "What are the manufacturing considerations for the modality?",
+      "module": "manufacturing",
+      "status": "not_public",
+      "public_answerable": false,
+      "requires": [
+        "cmc_ip"
+      ],
+      "evidence_ids": [],
+      "note": null
+    }
+  ],
+  "sources_status": [
+    {
+      "source": "clinicaltrials",
+      "ok": true,
+      "records": 2,
+      "error": null,
+      "duration_s": 1.84
+    },
+    {
+      "source": "pubmed",
+      "ok": true,
+      "records": 2,
+      "error": null,
+      "duration_s": 2.31
+    },
+    {
+      "source": "opentargets",
+      "ok": true,
+      "records": 1,
+      "error": null,
+      "duration_s": 0.92
+    },
+    {
+      "source": "openfda",
+      "ok": true,
+      "records": 1,
+      "error": null,
+      "duration_s": 0.67
+    },
+    {
+      "source": "chembl",
+      "ok": false,
+      "records": 0,
+      "error": "HTTP 500 for https://www.ebi.ac.uk/chembl/api/data/molecule/search.json?q=secukinumab",
+      "duration_s": 9.12
+    }
+  ]
+}
