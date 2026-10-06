@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "writer_input.schema.json",
+  "title": "Writer input v1.0",
+  "description": "Provisional contract for the Writer agent. Defined by the Writer, not yet confirmed against the analysts' and Skeptic's real output. See docs/INPUT_SCHEMA.md.",
+  "type": "object",
+  "required": ["thesis"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "run": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "timestamp": {"type": "string", "description": "ISO 8601"},
+        "simulated": {"type": "boolean"},
+        "fixture_data": {"type": "boolean"}
+      }
+    },
+    "thesis": {
+      "type": "object",
+      "required": ["indication", "mechanism"],
+      "properties": {
+        "indication": {"type": "string"},
+        "mechanism": {"type": "string"},
+        "modality": {"type": "string"},
+        "stage": {"type": "string"},
+        "biomarkers": {"oneOf": [{"type": "array", "items": {"type": "string"}}, {"type": "string", "description": "comma-separated"}]},
+        "route": {"type": "string"}
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "description": "Upstream verdict. When present it is copied verbatim and never rewritten.",
+      "properties": {
+        "verdict": {"type": "string", "description": "Expected: Invest | Watch | Do not invest"},
+        "confidence": {"type": "number", "description": "0..1 (values in (1,100] are read as percent)"}
+      }
+    },
+    "capital_to_milestone": {
+      "type": "object",
+      "properties": {
+        "milestone": {"type": "string"},
+        "duration": {"type": "string"},
+        "currency": {"type": "string", "default": "USD"},
+        "low": {"type": "number"},
+        "base": {"type": "number"},
+        "high": {"type": "number"},
+        "assumptions": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "analysts": {
+      "oneOf": [
+        {"type": "array", "items": {"$ref": "#/$defs/section"}},
+        {"type": "object", "additionalProperties": {"$ref": "#/$defs/section"}, "description": "keyed by analyst key"}
+      ]
+    },
+    "skeptic": {"$ref": "#/$defs/section"},
+    "panels": {
+      "type": "object",
+      "description": "Free-form content per panel key (unmet-need, market-sentiment, scientific-evidence, patient-population, competitive-landscape, pipeline, patent-ip, trial-design, manufacturing, red-flags, green-flags). Rendered verbatim in an appendix.",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {"type": "string"},
+        "title": {"type": "string"},
+        "url": {"type": "string"},
+        "database": {"type": "string", "description": "e.g. PubMed, ClinicalTrials.gov, Open Targets, openFDA"},
+        "identifier": {"type": "string", "description": "e.g. PMID, NCT number"},
+        "year": {"type": ["string", "integer"]},
+        "authors": {"type": "string"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "source_id": {"type": "string"},
+        "source": {"$ref": "#/$defs/source", "description": "inline alternative to source_id"},
+        "stance": {"enum": ["supporting", "contradicting", "neutral"]},
+        "excerpt": {"type": "string"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "id": {"type": "string"},
+        "text": {"type": "string"},
+        "confidence": {"type": "number"},
+        "claim_type": {"type": "string", "description": "e.g. source_fact, trial_result, database_record, analyst_inference, challenge, gap"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "related_claim_ids": {"type": "array", "items": {"type": "string"}, "description": "Skeptic: ids of analyst claims this challenges"}
+      }
+    },
+    "section": {
+      "type": "object",
+      "properties": {
+        "key": {"type": "string"},
+        "title": {"type": "string"},
+        "status": {"type": "string"},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}},
+        "follow_up_queries": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+[project]
+name = "writer-agent"
+version = "0.1.0"
+description = "Writer agent: renders the underwriting PDF report from analyst and Skeptic JSON."
+requires-python = ">=3.10"
+dependencies = ["reportlab>=4.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "pypdf>=4"]
+
+[project.scripts]
+writer-agent = "writer_agent.__main__:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["writer_agent"]
+
+[tool.setuptools.package-data]
+writer_agent = ["fonts/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
