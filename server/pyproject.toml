@@ -1,6 +1,7 @@
 [project]
-name = "researcher"
+name = "unobio-server"
 version = "0.1.0"
+description = "Unobio backend: researcher -> analytics -> (sceptic) -> writer"
 requires-python = ">=3.11"
 dependencies = [
     "httpx>=0.27",
@@ -17,12 +18,12 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["researcher*"]
+include = ["evidence_bundle*", "analytics*", "researcher*", "writer*", "sceptic*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
 markers = [
-    "live: hits a real public API",
+    "live: hits a real public API or a real LLM",
     "llm: calls the Gemini API (skipped when GEMINI_API_KEY is unset)",
 ]

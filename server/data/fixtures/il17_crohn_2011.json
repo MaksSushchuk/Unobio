@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0",
+  "run_id": "fixture-il17-crohn-2011",
+  "created_at": "2026-10-05T12:00:00Z",
+  "is_fixture": true,
+  "input": {
+    "indication": "Crohn's disease",
+    "mechanism": "IL-17 inhibition",
+    "modality": null,
+    "stage": null,
+    "biomarkers": null,
+    "route": null,
+    "evidence_cutoff": "2011-06-30"
+  },
+  "subject": {
+    "disease": {
+      "id": "MONDO_0005011",
+      "name": "Crohn disease",
+      "synonyms": [
+        "Crohn's disease",
+        "regional enteritis",
+        "Ileitis, Terminal"
+      ]
+    },
+    "targets": [
+      {
+        "ensembl_id": "ENSG00000112115",
+        "symbol": "IL17A",
+        "name": "interleukin 17A",
+        "role": "primary"
+      }
+    ],
+    "action": "inhibitor",
+    "drugs": [
+      {
+        "chembl_id": "CHEMBL1743068",
+        "name": "Secukinumab",
+        "synonyms": [
+          "AIN457",
+          "AIN-457"
+        ],
+        "target_symbols": [
+          "IL17A"
+        ],
+        "match": "target",
+        "max_stage": null
+      },
+      {
+        "chembl_id": "CHEMBL2108512",
+        "name": "Brodalumab",
+        "synonyms": [
+          "AMG 827"
+        ],
+        "target_symbols": [
+          "IL17RA"
+        ],
+        "match": "family",
+        "max_stage": null
+      }
+    ],
+    "notes": [
+      "Mechanism 'IL-17 inhibition' resolved to IL17A; IL17RA drugs added as same-family."
+    ]
+  },
+  "evidence": [
+    {
+      "id": "822c4361d1167cfb",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT00584740",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT00584740: Proof-of-concept study of AIN457 (anti-IL-17) in moderate to severe active Crohn's disease",
+      "snippet": "Ph2, ONGOING_AT_CUTOFF. [Outcome masked: not public at evidence cutoff.]",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2007-12-24",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT00584740",
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "nct_id": "NCT00584740",
+        "status": "ONGOING_AT_CUTOFF",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2008-08-31",
+        "role": "same_target",
+        "masked_by_cutoff": true
+      }
+    },
+    {
+      "id": "07b273b3685faa4a",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01009281",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01009281: 52-week open-label extension of AIN457 in moderate to severe Crohn's disease",
+      "snippet": "Ph2, ONGOING_AT_CUTOFF. [Outcome masked: not public at evidence cutoff.]",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2009-11-06",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01009281",
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "nct_id": "NCT01009281",
+        "status": "ONGOING_AT_CUTOFF",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2009-10-30",
+        "role": "same_target",
+        "masked_by_cutoff": true
+      }
+    },
+    {
+      "id": "d3b96bead18e854a",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01150890: Brodalumab (AMG 827) in adults with moderate to severe Crohn's disease",
+      "snippet": "Ph2, ONGOING_AT_CUTOFF. [Outcome masked: not public at evidence cutoff.]",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2010-06-25",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01150890",
+        "drug": "Brodalumab"
+      },
+      "data": {
+        "nct_id": "NCT01150890",
+        "status": "ONGOING_AT_CUTOFF",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2010-11-09",
+        "role": "same_target",
+        "masked_by_cutoff": true
+      }
+    },
+    {
+      "id": "5ead1e72caa84ecf",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01199302",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01199302: Long-term safety and efficacy of AMG 827 in subjects with Crohn's disease",
+      "snippet": "Ph2, ONGOING_AT_CUTOFF. [Outcome masked: not public at evidence cutoff.]",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2010-09-10",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01199302",
+        "drug": "Brodalumab"
+      },
+      "data": {
+        "nct_id": "NCT01199302",
+        "status": "ONGOING_AT_CUTOFF",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2011-02-02",
+        "role": "same_target",
+        "masked_by_cutoff": true
+      }
+    },
+    {
+      "id": "e98d2e5b1b2112c3",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/search?cond=Crohn+disease",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Trial benchmarks: Ph2/3 interventional trials in Crohn disease",
+      "snippet": "Computed from 300 of 552 Ph2/3 interventional trials. PHASE2: median enrollment 120, median duration 26 mo, termination rate 0.21; PHASE3: median enrollment 410, median duration 38 mo, termination rate 0.14. Stop reasons among terminated: business 31, efficacy 18, enrollment 15, safety 6. Common primary endpoints: clinical remission (CDAI<150); endoscopic response (SES-CD); CDAI-100 response.",
+      "kind": "record",
+      "modules": [
+        "trial-design"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "benchmark": true,
+        "synthetic": true,
+        "by_phase": {
+          "PHASE2": {
+            "n": 330,
+            "enrollment_median": 120,
+            "duration_months_median": 26,
+            "termination_rate": 0.21
+          },
+          "PHASE3": {
+            "n": 222,
+            "enrollment_median": 410,
+            "duration_months_median": 38,
+            "termination_rate": 0.14
+          }
+        }
+      }
+    },
+    {
+      "id": "76a0022fe568f6e3",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=interleukin+17+expression+inflammatory+bowel+disease",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Increased expression of interleukin 17 in inflammatory bowel disease mucosa",
+      "snippet": "IL-17 transcripts and IL-17+ cells are increased in inflamed mucosa of Crohn's disease and ulcerative colitis patients versus controls (correlative). [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": "2003-01-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "9c0c37a935c95288",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=IL-23+Th17+axis+Crohn+disease+review",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "The IL-23/Th17 axis in Crohn's disease: genetics and immunology (review)",
+      "snippet": "Review: IL23R variants are genetically associated with Crohn's disease; Th17 cells and IL-17A are proposed effectors of intestinal inflammation. Causality of IL-17A itself is not established. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": "2009-06-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "39189f674d5acbf1",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=IL-17A+intestinal+epithelium+protective+colitis",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "IL-17A protects the intestinal epithelium in experimental colitis",
+      "snippet": "In mouse colitis models, neutralising IL-17A exacerbated disease; IL-17A supports epithelial barrier integrity (tight junctions). Suggests blocking IL-17A could worsen gut inflammation. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags"
+      ],
+      "published_at": "2009-07-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "2c7f6050b0f85035",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=AIN457+psoriasis+rheumatoid+arthritis+uveitis",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Effects of AIN457, a fully human antibody to IL-17A, on psoriasis, rheumatoid arthritis and uveitis",
+      "snippet": "Early clinical study: single doses of AIN457 (secukinumab) reduced clinical signs of psoriasis and showed activity in RA and uveitis — human proof-of-mechanism for IL-17A blockade outside the gut. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": "2010-10-06",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "e3cfae47552a7a03",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=anti-TNF+loss+of+response+Crohn+review",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Primary non-response and loss of response to anti-TNF therapy in Crohn's disease (review)",
+      "snippet": "About one third of patients do not respond to anti-TNF induction and a further share lose response each year; refractory Crohn's disease remains a major unmet need. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "unmet-need"
+      ],
+      "published_at": "2010-03-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    }
+  ],
+  "trial_benchmarks": {
+    "benchmark": true,
+    "synthetic": true,
+    "by_phase": {
+      "PHASE2": {
+        "n": 330,
+        "enrollment_median": 120,
+        "duration_months_median": 26,
+        "termination_rate": 0.21
+      },
+      "PHASE3": {
+        "n": 222,
+        "enrollment_median": 410,
+        "duration_months_median": 38,
+        "termination_rate": 0.14
+      }
+    }
+  },
+  "gaps": [
+    {
+      "question": "Is the efficacious exposure achievable safely in humans for this specific asset?",
+      "requires": "experiment",
+      "reason": "Needs asset-level PK/PD and tox data."
+    },
+    {
+      "question": "Is target engagement demonstrated in the relevant diseased tissue?",
+      "requires": "proprietary_data",
+      "reason": "Tissue-level engagement data is rarely public."
+    },
+    {
+      "question": "What is the IP position and CMC/manufacturability of the asset?",
+      "requires": "cmc_ip",
+      "reason": "Input is mechanism-level; no specific asset."
+    },
+    {
+      "question": "What are realistic net prices / payer access?",
+      "requires": "kol",
+      "reason": "No open pricing source."
+    }
+  ],
+  "cutoff_policy": [
+    "evidence_cutoff=2011-06-30: only facts public on/before this date.",
+    "Open Targets / ChEMBL / FDA label snapshots excluded; CT.gov outcomes after cutoff masked (ONGOING_AT_CUTOFF)."
+  ],
+  "source_status": [
+    {
+      "source": "clinicaltrials",
+      "ok": true,
+      "evidence_count": 5,
+      "errors": []
+    },
+    {
+      "source": "pubmed",
+      "ok": true,
+      "evidence_count": 5,
+      "errors": []
+    }
+  ]
+}

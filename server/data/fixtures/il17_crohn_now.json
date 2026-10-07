@@ -1,0 +1,1099 @@
+{
+  "schema_version": "1.0",
+  "run_id": "fixture-il17-crohn-now",
+  "created_at": "2026-10-05T12:00:00Z",
+  "is_fixture": true,
+  "input": {
+    "indication": "Crohn's disease",
+    "mechanism": "IL-17 inhibition",
+    "modality": null,
+    "stage": null,
+    "biomarkers": null,
+    "route": null,
+    "evidence_cutoff": null
+  },
+  "subject": {
+    "disease": {
+      "id": "MONDO_0005011",
+      "name": "Crohn disease",
+      "synonyms": [
+        "Crohn's disease",
+        "regional enteritis",
+        "Ileitis, Terminal"
+      ]
+    },
+    "targets": [
+      {
+        "ensembl_id": "ENSG00000112115",
+        "symbol": "IL17A",
+        "name": "interleukin 17A",
+        "role": "primary"
+      }
+    ],
+    "action": "inhibitor",
+    "drugs": [
+      {
+        "chembl_id": "CHEMBL1743068",
+        "name": "Secukinumab",
+        "synonyms": [
+          "AIN457",
+          "AIN-457",
+          "Cosentyx"
+        ],
+        "target_symbols": [
+          "IL17A"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      },
+      {
+        "chembl_id": "CHEMBL1743034",
+        "name": "Ixekizumab",
+        "synonyms": [
+          "LY2439821",
+          "Taltz"
+        ],
+        "target_symbols": [
+          "IL17A"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      },
+      {
+        "chembl_id": null,
+        "name": "Bimekizumab",
+        "synonyms": [],
+        "target_symbols": [
+          "IL17A",
+          "IL17F"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      },
+      {
+        "chembl_id": "CHEMBL2108512",
+        "name": "Brodalumab",
+        "synonyms": [
+          "AMG 827",
+          "Siliq"
+        ],
+        "target_symbols": [
+          "IL17RA"
+        ],
+        "match": "family",
+        "max_stage": "APPROVAL"
+      }
+    ],
+    "notes": [
+      "Mechanism 'IL-17 inhibition' resolved to IL17A; IL17RA drugs added as same-family."
+    ]
+  },
+  "evidence": [
+    {
+      "id": "aaffce0e938e239d",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000112115/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Target–disease association: IL17A / Crohn disease",
+      "snippet": "Open Targets association IL17A–Crohn disease: overall score 0.100 (0–1). By evidence type: literature=0.503, clinical=0.137, rna_expression=0.126. No human genetic evidence (correlative evidence only).",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "target": "IL17A"
+      },
+      "data": {
+        "overall_score": 0.1,
+        "has_genetic_evidence": false,
+        "datatype_scores": {
+          "literature": 0.503,
+          "clinical": 0.137,
+          "rna_expression": 0.126
+        }
+      }
+    },
+    {
+      "id": "c20fbd59fa18c088",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/drug/CHEMBL1743068",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Secukinumab: Interleukin 17A inhibitor (max stage APPROVAL)",
+      "snippet": "Secukinumab (antibody) inhibits IL17A; approved. Developed for: psoriasis, psoriatic arthritis, ankylosing spondylitis, hidradenitis suppurativa, Crohn's disease. In this indication: max stage PHASE_2.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "drug": "Secukinumab",
+        "max_stage": "APPROVAL",
+        "stage_in_indication": "PHASE_2",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "bab3b705c449b775",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/drug/CHEMBL1743034",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Ixekizumab: Interleukin 17A inhibitor (max stage APPROVAL)",
+      "snippet": "Ixekizumab (antibody) inhibits IL17A; approved for psoriasis, psoriatic arthritis, axial spondyloarthritis. Not developed in Crohn's disease.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Ixekizumab"
+      },
+      "data": {
+        "drug": "Ixekizumab",
+        "max_stage": "APPROVAL",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "457d301a91195ce4",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/drugs",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Bimekizumab: IL-17A/IL-17F inhibitor (max stage APPROVAL)",
+      "snippet": "Bimekizumab (antibody) inhibits IL17A and IL17F; approved for psoriasis-spectrum diseases. Not developed in Crohn's disease.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Bimekizumab"
+      },
+      "data": {
+        "drug": "Bimekizumab",
+        "max_stage": "APPROVAL",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "24b74c1c738f2c7d",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/drug/CHEMBL2108512",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Brodalumab: IL-17 receptor A antagonist (max stage APPROVAL)",
+      "snippet": "Brodalumab (antibody) blocks IL17RA (same IL-17 pathway, receptor); approved for psoriasis. In this indication: max stage PHASE_2.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Brodalumab"
+      },
+      "data": {
+        "drug": "Brodalumab",
+        "max_stage": "APPROVAL",
+        "stage_in_indication": "PHASE_2",
+        "role": "same_target",
+        "match": "family"
+      }
+    },
+    {
+      "id": "dd6ce799d05cafee",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Infliximab in the indication (approved)",
+      "snippet": "Infliximab (TNF-alpha inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Infliximab"
+      },
+      "data": {
+        "drug": "Infliximab",
+        "role": "approved",
+        "mechanism": "TNF-alpha inhibitor"
+      }
+    },
+    {
+      "id": "16e2f666585da003",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Adalimumab in the indication (approved)",
+      "snippet": "Adalimumab (TNF-alpha inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Adalimumab"
+      },
+      "data": {
+        "drug": "Adalimumab",
+        "role": "approved",
+        "mechanism": "TNF-alpha inhibitor"
+      }
+    },
+    {
+      "id": "0d3269abb12cf1c7",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Vedolizumab in the indication (approved)",
+      "snippet": "Vedolizumab (integrin alpha4beta7 inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Vedolizumab"
+      },
+      "data": {
+        "drug": "Vedolizumab",
+        "role": "approved",
+        "mechanism": "integrin alpha4beta7 inhibitor"
+      }
+    },
+    {
+      "id": "ef21abd1066b9cb2",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Ustekinumab in the indication (approved)",
+      "snippet": "Ustekinumab (IL-12/IL-23 p40 inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Ustekinumab"
+      },
+      "data": {
+        "drug": "Ustekinumab",
+        "role": "approved",
+        "mechanism": "IL-12/IL-23 p40 inhibitor"
+      }
+    },
+    {
+      "id": "ef3040759eaa5562",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Risankizumab in the indication (approved)",
+      "snippet": "Risankizumab (IL-23 p19 inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Risankizumab"
+      },
+      "data": {
+        "drug": "Risankizumab",
+        "role": "approved",
+        "mechanism": "IL-23 p19 inhibitor"
+      }
+    },
+    {
+      "id": "f13495d13d9006d8",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Upadacitinib in the indication (approved)",
+      "snippet": "Upadacitinib (JAK1 inhibitor) — approved in Crohn's disease; FDA label lists this indication.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Upadacitinib"
+      },
+      "data": {
+        "drug": "Upadacitinib",
+        "role": "approved",
+        "mechanism": "JAK1 inhibitor"
+      }
+    },
+    {
+      "id": "4bb6a8f777830fc4",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005011",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Drug development landscape: Crohn disease",
+      "snippet": "Open Targets lists 198 drugs/candidates ever developed for Crohn disease, 23 of them approved (incl. anti-TNF, anti-integrin, anti-IL-12/23, anti-IL-23 p19, JAK inhibitors, corticosteroids, thiopurines).",
+      "kind": "record",
+      "modules": [
+        "competitive-landscape",
+        "unmet-need"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "n_drugs": 198,
+        "n_approved": 23
+      }
+    },
+    {
+      "id": "822c4361d1167cfb",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT00584740",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT00584740: Proof-of-concept study of AIN457 (anti-IL-17) in moderate to severe active Crohn's disease",
+      "snippet": "Ph2, TERMINATED (why stopped: The study was terminated prematurely after futility criterion was met at planned interim analysis of 41 patients.). Interventions: Secukinumab. Sponsor: Novartis. Enrollment: n/a. Start 2008-08-31. Primary outcome: Change in CDAI at week 6.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design",
+        "red-flags"
+      ],
+      "published_at": "2007-12-24",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT00584740",
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "nct_id": "NCT00584740",
+        "status": "TERMINATED",
+        "why_stopped": "The study was terminated prematurely after futility criterion was met at planned interim analysis of 41 patients.",
+        "stop_class": "efficacy",
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2008-08-31",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "07b273b3685faa4a",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01009281",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01009281: 52-week open-label extension of AIN457 in moderate to severe Crohn's disease",
+      "snippet": "Ph2, TERMINATED. Interventions: Secukinumab. Sponsor: Novartis. Enrollment: n/a. Start 2009-10-30. Primary outcome: Safety and tolerability.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2009-11-06",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01009281",
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "nct_id": "NCT01009281",
+        "status": "TERMINATED",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2009-10-30",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "d3b96bead18e854a",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01150890: Brodalumab (AMG 827) in adults with moderate to severe Crohn's disease",
+      "snippet": "Ph2, TERMINATED (why stopped: The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups). Interventions: Brodalumab. Sponsor: Amgen. Enrollment: 130. Start 2010-11-09. Primary outcome: Percentage of participants who achieved clinical remission at week 6.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design",
+        "red-flags"
+      ],
+      "published_at": "2010-06-25",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01150890",
+        "drug": "Brodalumab"
+      },
+      "data": {
+        "nct_id": "NCT01150890",
+        "status": "TERMINATED",
+        "why_stopped": "The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups",
+        "stop_class": "safety",
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": 130,
+        "start_date": "2010-11-09",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "5ead1e72caa84ecf",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01199302",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01199302: Long-term safety and efficacy of AMG 827 in subjects with Crohn's disease",
+      "snippet": "Ph2, TERMINATED (why stopped: The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups.). Interventions: Brodalumab. Sponsor: Amgen. Enrollment: n/a. Start 2011-02-02. Primary outcome: Adverse events.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design",
+        "red-flags"
+      ],
+      "published_at": "2010-09-10",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01199302",
+        "drug": "Brodalumab"
+      },
+      "data": {
+        "nct_id": "NCT01199302",
+        "status": "TERMINATED",
+        "why_stopped": "The study was terminated early based on an imbalance in worsening Crohn's disease in active treatment groups.",
+        "stop_class": "safety",
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2011-02-02",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "f6b1f96815f7d973",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT90000001",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT90000001: Anti-IL-23 p19 antibody A in moderately to severely active Crohn's disease",
+      "snippet": "Ph3, RECRUITING. Interventions: Anti-IL-23 p19 antibody A. Sponsor: Industry. Enrollment: n/a. Start 2024-03-01. Primary outcome: Clinical remission (CDAI<150) and endoscopic response at week 12.",
+      "kind": "record",
+      "modules": [
+        "competitive-landscape",
+        "pipeline"
+      ],
+      "published_at": "2024-01-15",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT90000001",
+        "drug": "Anti-IL-23 p19 antibody A"
+      },
+      "data": {
+        "nct_id": "NCT90000001",
+        "status": "RECRUITING",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": null,
+        "start_date": "2024-03-01",
+        "role": "landscape",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "d26c6be62ac1bfa3",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT90000002",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT90000002: Oral JAK1 inhibitor B in moderately to severely active Crohn's disease",
+      "snippet": "Ph3, RECRUITING. Interventions: Oral JAK1 inhibitor B. Sponsor: Industry. Enrollment: n/a. Start 2024-03-01. Primary outcome: Clinical remission (CDAI<150) and endoscopic response at week 12.",
+      "kind": "record",
+      "modules": [
+        "competitive-landscape",
+        "pipeline"
+      ],
+      "published_at": "2024-01-15",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT90000002",
+        "drug": "Oral JAK1 inhibitor B"
+      },
+      "data": {
+        "nct_id": "NCT90000002",
+        "status": "RECRUITING",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": null,
+        "start_date": "2024-03-01",
+        "role": "landscape",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "e0248b39882cd7bc",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT90000003",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT90000003: Anti-TL1A antibody C in moderately to severely active Crohn's disease",
+      "snippet": "Ph3, RECRUITING. Interventions: Anti-TL1A antibody C. Sponsor: Industry. Enrollment: n/a. Start 2024-03-01. Primary outcome: Clinical remission (CDAI<150) and endoscopic response at week 12.",
+      "kind": "record",
+      "modules": [
+        "competitive-landscape",
+        "pipeline"
+      ],
+      "published_at": "2024-01-15",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT90000003",
+        "drug": "Anti-TL1A antibody C"
+      },
+      "data": {
+        "nct_id": "NCT90000003",
+        "status": "RECRUITING",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": null,
+        "start_date": "2024-03-01",
+        "role": "landscape",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "45858b4f479d997a",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT90000004",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT90000004: S1P modulator D in moderately to severely active Crohn's disease",
+      "snippet": "Ph2, RECRUITING. Interventions: S1P modulator D. Sponsor: Industry. Enrollment: n/a. Start 2024-03-01. Primary outcome: Clinical remission (CDAI<150) and endoscopic response at week 12.",
+      "kind": "record",
+      "modules": [
+        "competitive-landscape",
+        "pipeline"
+      ],
+      "published_at": "2024-01-15",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT90000004",
+        "drug": "S1P modulator D"
+      },
+      "data": {
+        "nct_id": "NCT90000004",
+        "status": "RECRUITING",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "enrollment": null,
+        "start_date": "2024-03-01",
+        "role": "landscape",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "e98d2e5b1b2112c3",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/search?cond=Crohn+disease",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Trial benchmarks: Ph2/3 interventional trials in Crohn disease",
+      "snippet": "Computed from 300 of 552 Ph2/3 interventional trials. PHASE2: median enrollment 120, median duration 26 mo, termination rate 0.21; PHASE3: median enrollment 410, median duration 38 mo, termination rate 0.14. Stop reasons among terminated: business 31, efficacy 18, enrollment 15, safety 6. Common primary endpoints: clinical remission (CDAI<150); endoscopic response (SES-CD); CDAI-100 response.",
+      "kind": "record",
+      "modules": [
+        "trial-design"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "benchmark": true,
+        "synthetic": true,
+        "by_phase": {
+          "PHASE2": {
+            "n": 330,
+            "enrollment_median": 120,
+            "duration_months_median": 26,
+            "termination_rate": 0.21
+          },
+          "PHASE3": {
+            "n": 222,
+            "enrollment_median": 410,
+            "duration_months_median": 38,
+            "termination_rate": 0.14
+          }
+        }
+      }
+    },
+    {
+      "id": "d1c2aceda3b77bc8",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22595313/",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Secukinumab, a human anti-IL-17A monoclonal antibody, for moderate to severe Crohn's disease: unexpected results of a randomised, double-blind placebo-controlled trial",
+      "snippet": "Randomised placebo-controlled proof-of-concept trial of secukinumab in active Crohn's disease. IL-17A blockade was ineffective and was associated with higher rates of adverse events (incl. worsening/infections) than placebo. [paraphrased]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags",
+        "pipeline"
+      ],
+      "published_at": "2012-05-19",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "pmid": "22595313"
+      },
+      "data": {
+        "journal": "Gut",
+        "pub_types": [
+          "Randomized Controlled Trial"
+        ]
+      }
+    },
+    {
+      "id": "76a0022fe568f6e3",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=interleukin+17+expression+inflammatory+bowel+disease",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Increased expression of interleukin 17 in inflammatory bowel disease mucosa",
+      "snippet": "IL-17 transcripts and IL-17+ cells are increased in inflamed mucosa of Crohn's disease and ulcerative colitis patients versus controls (correlative). [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": "2003-01-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "9c0c37a935c95288",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=IL-23+Th17+axis+Crohn+disease+review",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "The IL-23/Th17 axis in Crohn's disease: genetics and immunology (review)",
+      "snippet": "Review: IL23R variants are genetically associated with Crohn's disease; Th17 cells and IL-17A are proposed effectors of intestinal inflammation. Causality of IL-17A itself is not established. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": "2009-06-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "39189f674d5acbf1",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=IL-17A+intestinal+epithelium+protective+colitis",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "IL-17A protects the intestinal epithelium in experimental colitis",
+      "snippet": "In mouse colitis models, neutralising IL-17A exacerbated disease; IL-17A supports epithelial barrier integrity (tight junctions). Suggests blocking IL-17A could worsen gut inflammation. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags"
+      ],
+      "published_at": "2009-07-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "2c7f6050b0f85035",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=AIN457+psoriasis+rheumatoid+arthritis+uveitis",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Effects of AIN457, a fully human antibody to IL-17A, on psoriasis, rheumatoid arthritis and uveitis",
+      "snippet": "Early clinical study: single doses of AIN457 (secukinumab) reduced clinical signs of psoriasis and showed activity in RA and uveitis — human proof-of-mechanism for IL-17A blockade outside the gut. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": "2010-10-06",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "2857e17a09ac21d7",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=brodalumab+Crohn+disease+phase+2",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Randomized phase 2 study of brodalumab in moderate-to-severe Crohn's disease",
+      "snippet": "Brodalumab (anti-IL-17RA) did not show efficacy in Crohn's disease; the study was stopped early because of disproportionate worsening of Crohn's disease in active arms. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "scientific-evidence",
+        "red-flags",
+        "pipeline"
+      ],
+      "published_at": "2016-08-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "e3cfae47552a7a03",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=anti-TNF+loss+of+response+Crohn+review",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Primary non-response and loss of response to anti-TNF therapy in Crohn's disease (review)",
+      "snippet": "About one third of patients do not respond to anti-TNF induction and a further share lose response each year; refractory Crohn's disease remains a major unmet need. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "unmet-need"
+      ],
+      "published_at": "2010-03-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "dea853ea693a929d",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=worldwide+prevalence+inflammatory+bowel+disease+systematic+review",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Worldwide incidence and prevalence of inflammatory bowel disease (systematic review)",
+      "snippet": "Prevalence of Crohn's disease is highest in North America and Europe (often >300 per 100,000); incidence is rising in newly industrialised countries. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "patient-population"
+      ],
+      "published_at": "2017-12-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "8a60217a4f9add92",
+      "source": "openfda",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=77c4b13e-7df3-42d4-81db-3d0cddb7f67a",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "FDA label: Cosentyx — warning mentions the indication",
+      "snippet": "FDA label for Cosentyx (secukinumab). Indications: plaque psoriasis, psoriatic arthritis, ankylosing spondylitis, nr-axSpA, enthesitis-related arthritis, hidradenitis suppurativa. WARNING mentions the indication: Inflammatory Bowel Disease (IBD): cases of IBD, including Crohn's disease and ulcerative colitis, were reported; exacerbations occurred.",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence",
+        "competitive-landscape",
+        "red-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "generic": "Secukinumab",
+        "warning_mentions_indication": true
+      }
+    },
+    {
+      "id": "2dce4530b0b2425c",
+      "source": "openfda",
+      "url": "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.generic_name:%22secukinumab%22+AND+patient.reaction.reactionmeddrapt:crohn",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "FAERS: 'Crohn's disease' reported with Secukinumab",
+      "snippet": "FAERS (all reports to date): 1342 of 160421 adverse-event reports for secukinumab list Crohn's disease as a reaction (0.84%). Spontaneous reports: signal, not causality.",
+      "kind": "record",
+      "modules": [
+        "red-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "generic": "Secukinumab",
+        "reports_with_reaction": 1342,
+        "reports_total": 160421,
+        "share": 0.0084
+      }
+    },
+    {
+      "id": "33d73a30ebc3456d",
+      "source": "chembl",
+      "url": "https://www.ebi.ac.uk/chembl/explore/compound/CHEMBL1743068",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "ChEMBL indications: Secukinumab",
+      "snippet": "ChEMBL indications for secukinumab: approved (phase 4) for psoriasis, psoriatic arthritis, psoriasis vulgaris; max phase in Crohn's disease: 2.",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence",
+        "pipeline",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "drug": "Secukinumab"
+      },
+      "data": {
+        "drug": "Secukinumab",
+        "approved_indications": [
+          "psoriasis",
+          "psoriatic arthritis"
+        ],
+        "phase_in_indication": 2.0
+      }
+    },
+    {
+      "id": "c80618dd43ad4f91",
+      "source": "reconciliation",
+      "url": "https://clinicaltrials.gov/study/NCT00584740",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Secukinumab (same target) trial in Crohn disease stopped for efficacy",
+      "snippet": "NCT00584740: secukinumab in Crohn's disease terminated for futility at interim analysis. A drug acting on the same target already failed in this indication.",
+      "kind": "conflict",
+      "modules": [
+        "red-flags",
+        "pipeline",
+        "scientific-evidence"
+      ],
+      "published_at": "2007-12-24",
+      "related_evidence_ids": [
+        "822c4361d1167cfb"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "stopped_for_cause",
+        "severity": "high",
+        "kill_signal": true,
+        "drug": "Secukinumab"
+      }
+    },
+    {
+      "id": "91903feb193f73ab",
+      "source": "reconciliation",
+      "url": "https://clinicaltrials.gov/study/NCT01150890",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Brodalumab (same target family) trial in Crohn disease stopped for safety",
+      "snippet": "NCT01150890 and NCT01199302: brodalumab (IL17RA) trials in Crohn's disease terminated due to worsening of Crohn's disease in active arms — signs of harm.",
+      "kind": "conflict",
+      "modules": [
+        "red-flags",
+        "pipeline",
+        "scientific-evidence"
+      ],
+      "published_at": "2010-09-10",
+      "related_evidence_ids": [
+        "5ead1e72caa84ecf",
+        "d3b96bead18e854a"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "stopped_for_cause",
+        "severity": "high",
+        "kill_signal": true,
+        "drug": "Brodalumab"
+      }
+    },
+    {
+      "id": "6a054771bb318a0b",
+      "source": "reconciliation",
+      "url": "https://clinicaltrials.gov/study/NCT00584740",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Secukinumab: approved in psoriasis, failed in Crohn disease",
+      "snippet": "Secukinumab is approved in psoriasis/PsA (ChEMBL phase 4) but its Crohn's trial was stopped for futility; human-validated IL-17A biology does not transfer to this indication.",
+      "kind": "conflict",
+      "modules": [
+        "red-flags",
+        "scientific-evidence",
+        "pipeline"
+      ],
+      "published_at": "2007-12-24",
+      "related_evidence_ids": [
+        "33d73a30ebc3456d",
+        "822c4361d1167cfb",
+        "c20fbd59fa18c088"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "mechanism_not_transferring",
+        "severity": "high",
+        "kill_signal": true,
+        "drug": "Secukinumab"
+      }
+    },
+    {
+      "id": "63a229ba193cf66d",
+      "source": "reconciliation",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=77c4b13e-7df3-42d4-81db-3d0cddb7f67a",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "FDA label of Cosentyx warns about Crohn disease",
+      "snippet": "The FDA label of secukinumab (same target) warns about new-onset/exacerbation of IBD incl. Crohn's disease.",
+      "kind": "conflict",
+      "modules": [
+        "red-flags",
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [
+        "8a60217a4f9add92"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "label_warning",
+        "severity": "high",
+        "kill_signal": false,
+        "drug": "Secukinumab"
+      }
+    },
+    {
+      "id": "393b85cc004f4861",
+      "source": "reconciliation",
+      "url": "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.generic_name:%22secukinumab%22+AND+patient.reaction.reactionmeddrapt:crohn",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "FAERS: Crohn disease reported as adverse event of Secukinumab",
+      "snippet": "1342 FAERS reports (0.84%) for secukinumab list Crohn's disease as an adverse reaction — possible class effect.",
+      "kind": "conflict",
+      "modules": [
+        "red-flags",
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [
+        "2dce4530b0b2425c"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "faers_class_signal",
+        "severity": "medium",
+        "kill_signal": false,
+        "drug": "Secukinumab"
+      }
+    }
+  ],
+  "trial_benchmarks": {
+    "benchmark": true,
+    "synthetic": true,
+    "by_phase": {
+      "PHASE2": {
+        "n": 330,
+        "enrollment_median": 120,
+        "duration_months_median": 26,
+        "termination_rate": 0.21
+      },
+      "PHASE3": {
+        "n": 222,
+        "enrollment_median": 410,
+        "duration_months_median": 38,
+        "termination_rate": 0.14
+      }
+    }
+  },
+  "gaps": [
+    {
+      "question": "Is the efficacious exposure achievable safely in humans for this specific asset?",
+      "requires": "experiment",
+      "reason": "Needs asset-level PK/PD and tox data."
+    },
+    {
+      "question": "Is target engagement demonstrated in the relevant diseased tissue?",
+      "requires": "proprietary_data",
+      "reason": "Tissue-level engagement data is rarely public."
+    },
+    {
+      "question": "What is the IP position and CMC/manufacturability of the asset?",
+      "requires": "cmc_ip",
+      "reason": "Input is mechanism-level; no specific asset."
+    },
+    {
+      "question": "What are realistic net prices / payer access?",
+      "requires": "kol",
+      "reason": "No open pricing source."
+    }
+  ],
+  "cutoff_policy": [],
+  "source_status": [
+    {
+      "source": "chembl",
+      "ok": true,
+      "evidence_count": 1,
+      "errors": []
+    },
+    {
+      "source": "clinicaltrials",
+      "ok": true,
+      "evidence_count": 9,
+      "errors": []
+    },
+    {
+      "source": "openfda",
+      "ok": true,
+      "evidence_count": 2,
+      "errors": []
+    },
+    {
+      "source": "opentargets",
+      "ok": true,
+      "evidence_count": 12,
+      "errors": []
+    },
+    {
+      "source": "pubmed",
+      "ok": true,
+      "evidence_count": 8,
+      "errors": []
+    },
+    {
+      "source": "reconciliation",
+      "ok": true,
+      "evidence_count": 5,
+      "errors": []
+    }
+  ]
+}

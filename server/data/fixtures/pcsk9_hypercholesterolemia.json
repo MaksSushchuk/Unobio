@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0",
+  "run_id": "fixture-pcsk9",
+  "created_at": "2026-10-05T12:00:00Z",
+  "is_fixture": true,
+  "input": {
+    "indication": "hypercholesterolemia",
+    "mechanism": "PCSK9 inhibition",
+    "modality": null,
+    "stage": null,
+    "biomarkers": null,
+    "route": null,
+    "evidence_cutoff": null
+  },
+  "subject": {
+    "disease": {
+      "id": "MONDO_0005439",
+      "name": "familial hypercholesterolemia",
+      "synonyms": [
+        "hypercholesterolemia"
+      ]
+    },
+    "targets": [
+      {
+        "ensembl_id": "ENSG00000169174",
+        "symbol": "PCSK9",
+        "name": "proprotein convertase subtilisin/kexin type 9",
+        "role": "primary"
+      }
+    ],
+    "action": "inhibitor",
+    "drugs": [
+      {
+        "chembl_id": null,
+        "name": "Evolocumab",
+        "synonyms": [
+          "AMG 145",
+          "Repatha"
+        ],
+        "target_symbols": [
+          "PCSK9"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      },
+      {
+        "chembl_id": null,
+        "name": "Alirocumab",
+        "synonyms": [
+          "REGN727",
+          "Praluent"
+        ],
+        "target_symbols": [
+          "PCSK9"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      },
+      {
+        "chembl_id": null,
+        "name": "Inclisiran",
+        "synonyms": [
+          "Leqvio"
+        ],
+        "target_symbols": [
+          "PCSK9"
+        ],
+        "match": "target",
+        "max_stage": "APPROVAL"
+      }
+    ],
+    "notes": []
+  },
+  "evidence": [
+    {
+      "id": "9ae87ebb87d18d4e",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000169174/MONDO_0005439",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Target–disease association: PCSK9 / familial hypercholesterolemia",
+      "snippet": "Open Targets association: overall score 0.856. By evidence type: clinical=0.972, genetic_association=0.866, genetic_literature=0.864, literature=0.775, animal_model=0.510. Human genetic evidence present.",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "overall_score": 0.856,
+        "has_genetic_evidence": true
+      }
+    },
+    {
+      "id": "2a3a7ea7bfd8c5a5",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/evidence/ENSG00000169174/MONDO_0005439",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Human genetic evidence (genomics_england, eva, gwas): PCSK9 / FH",
+      "snippet": "Gain-of-function PCSK9 variants cause autosomal dominant hypercholesterolemia; loss-of-function variants lower LDL-C and coronary risk — natural human 'knock-down' experiment supporting causality and safety of inhibition.",
+      "kind": "record",
+      "modules": [
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "assumed_time_stable": true
+      }
+    },
+    {
+      "id": "44f64670da8fb578",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/target/ENSG00000169174",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Evolocumab: PCSK9 inhibitor (approved in this indication)",
+      "snippet": "Evolocumab acts on PCSK9; approved for hypercholesterolemia incl. heterozygous FH. CV outcomes trial positive (FOURIER).",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "drug": "Evolocumab",
+        "max_stage": "APPROVAL",
+        "stage_in_indication": "APPROVAL",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "bd5f9600dc6c0933",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/target/ENSG00000169174",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Alirocumab: PCSK9 inhibitor (approved in this indication)",
+      "snippet": "Alirocumab acts on PCSK9; approved for hypercholesterolemia incl. heterozygous FH. CV outcomes trial positive (ODYSSEY OUTCOMES).",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "drug": "Alirocumab",
+        "max_stage": "APPROVAL",
+        "stage_in_indication": "APPROVAL",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "1896f981a947fdd7",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/target/ENSG00000169174",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Inclisiran: PCSK9 inhibitor (approved in this indication)",
+      "snippet": "Inclisiran acts on PCSK9; approved for hypercholesterolemia incl. heterozygous FH. siRNA, twice-yearly dosing.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "competitive-landscape",
+        "scientific-evidence",
+        "green-flags"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "drug": "Inclisiran",
+        "max_stage": "APPROVAL",
+        "stage_in_indication": "APPROVAL",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "6cc6b5155f7ac2ff",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/study/NCT01764633",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "NCT01764633: FOURIER: evolocumab cardiovascular outcomes",
+      "snippet": "Ph3, COMPLETED. Interventions: Evolocumab. Sponsor: Amgen. Enrollment: 27564. Start 2013-02-01. Primary outcome: Major cardiovascular events.",
+      "kind": "record",
+      "modules": [
+        "pipeline",
+        "trial-design"
+      ],
+      "published_at": "2013-01-08",
+      "related_evidence_ids": [],
+      "entity_refs": {
+        "nct_id": "NCT01764633",
+        "drug": "Evolocumab"
+      },
+      "data": {
+        "nct_id": "NCT01764633",
+        "status": "COMPLETED",
+        "why_stopped": null,
+        "stop_class": null,
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 27564,
+        "start_date": "2013-02-01",
+        "role": "same_target"
+      }
+    },
+    {
+      "id": "a24725dc8efa70ec",
+      "source": "opentargets",
+      "url": "https://platform.opentargets.org/disease/MONDO_0005439",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Statins / ezetimibe (approved, generic)",
+      "snippet": "High-intensity statins ± ezetimibe are standard of care; a substantial share of FH patients do not reach LDL-C goals.",
+      "kind": "record",
+      "modules": [
+        "unmet-need",
+        "competitive-landscape"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "role": "approved"
+      }
+    },
+    {
+      "id": "5b1956b3b0a5fe42",
+      "source": "clinicaltrials",
+      "url": "https://clinicaltrials.gov/search?cond=familial+hypercholesterolemia",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Trial benchmarks: Ph2/3 interventional trials in familial hypercholesterolemia",
+      "snippet": "Computed from 140 Ph2/3 interventional trials. PHASE2: median enrollment 90, median duration 14 mo, termination rate 0.10; PHASE3: median enrollment 300 (CV-outcomes trials: >10,000), median duration 24 mo, termination rate 0.08. Common primary endpoint: percent change in LDL-C at week 12/24.",
+      "kind": "record",
+      "modules": [
+        "trial-design"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "benchmark": true,
+        "synthetic": true,
+        "by_phase": {
+          "PHASE2": {
+            "n": 80,
+            "enrollment_median": 90,
+            "duration_months_median": 14,
+            "termination_rate": 0.1
+          },
+          "PHASE3": {
+            "n": 60,
+            "enrollment_median": 300,
+            "duration_months_median": 24,
+            "termination_rate": 0.08
+          }
+        }
+      }
+    },
+    {
+      "id": "bd40d9e037500dc5",
+      "source": "pubmed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=oral+PCSK9+inhibitor",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Oral PCSK9 inhibitors in late-stage development (review)",
+      "snippet": "Several oral macrocyclic PCSK9 inhibitors are in phase 3; differentiation for a new PCSK9 agent will hinge on route, dosing interval and price. [synthetic placeholder]",
+      "kind": "literature",
+      "modules": [
+        "competitive-landscape",
+        "market-sentiment"
+      ],
+      "published_at": "2025-06-01",
+      "related_evidence_ids": [],
+      "entity_refs": {},
+      "data": {
+        "synthetic": true
+      }
+    },
+    {
+      "id": "27cd18f4952aeccf",
+      "source": "reconciliation",
+      "url": "https://platform.opentargets.org/target/ENSG00000169174",
+      "retrieved_at": "2026-10-05T12:00:00Z",
+      "title": "Evolocumab (same target) is approved in familial hypercholesterolemia",
+      "snippet": "Same-target drugs reached approval in this indication — human proof-of-mechanism (and incumbent competitors).",
+      "kind": "record",
+      "modules": [
+        "green-flags",
+        "competitive-landscape",
+        "scientific-evidence"
+      ],
+      "published_at": null,
+      "related_evidence_ids": [
+        "44f64670da8fb578"
+      ],
+      "entity_refs": {},
+      "data": {
+        "rule": "validated_in_indication",
+        "severity": "info",
+        "kill_signal": false
+      }
+    }
+  ],
+  "trial_benchmarks": {
+    "benchmark": true,
+    "synthetic": true,
+    "by_phase": {
+      "PHASE2": {
+        "n": 80,
+        "enrollment_median": 90,
+        "duration_months_median": 14,
+        "termination_rate": 0.1
+      },
+      "PHASE3": {
+        "n": 60,
+        "enrollment_median": 300,
+        "duration_months_median": 24,
+        "termination_rate": 0.08
+      }
+    }
+  },
+  "gaps": [
+    {
+      "question": "Is the efficacious exposure achievable safely in humans for this specific asset?",
+      "requires": "experiment",
+      "reason": "Needs asset-level PK/PD and tox data."
+    },
+    {
+      "question": "Is target engagement demonstrated in the relevant diseased tissue?",
+      "requires": "proprietary_data",
+      "reason": "Tissue-level engagement data is rarely public."
+    },
+    {
+      "question": "What is the IP position and CMC/manufacturability of the asset?",
+      "requires": "cmc_ip",
+      "reason": "Input is mechanism-level; no specific asset."
+    },
+    {
+      "question": "What are realistic net prices / payer access?",
+      "requires": "kol",
+      "reason": "No open pricing source."
+    }
+  ],
+  "cutoff_policy": [],
+  "source_status": [
+    {
+      "source": "clinicaltrials",
+      "ok": true,
+      "evidence_count": 2,
+      "errors": []
+    },
+    {
+      "source": "opentargets",
+      "ok": true,
+      "evidence_count": 6,
+      "errors": []
+    },
+    {
+      "source": "pubmed",
+      "ok": true,
+      "evidence_count": 1,
+      "errors": []
+    },
+    {
+      "source": "reconciliation",
+      "ok": true,
+      "evidence_count": 1,
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,521 @@
+{
+  "$defs": {
+    "DiseaseRef": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "MONDO_/EFO_/Orphanet_ id",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "synonyms": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "DiseaseRef",
+      "type": "object"
+    },
+    "DrugRef": {
+      "additionalProperties": true,
+      "properties": {
+        "chembl_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chembl Id"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "synonyms": {
+          "default": [],
+          "description": "Code names, brands: AIN457, Cosentyx ...",
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        },
+        "target_symbols": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Symbols",
+          "type": "array"
+        },
+        "match": {
+          "default": "target",
+          "description": "target = acts on a resolved target; family = same gene family (IL17RA for IL17A)",
+          "enum": [
+            "target",
+            "family"
+          ],
+          "title": "Match",
+          "type": "string"
+        },
+        "max_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Highest stage today (hidden under cutoff)",
+          "title": "Max Stage"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "DrugRef",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "Stable id (hash of source + native id). Cited by claims.",
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "description": "opentargets | clinicaltrials | pubmed | openfda | chembl | web | reconciliation",
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "snippet": {
+          "description": "Short human/LLM-readable text, <= ~900 chars",
+          "title": "Snippet",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "record",
+            "literature",
+            "web",
+            "conflict"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "modules": {
+          "items": {
+            "enum": [
+              "unmet-need",
+              "market-sentiment",
+              "scientific-evidence",
+              "patient-population",
+              "competitive-landscape",
+              "pipeline",
+              "patent-ip",
+              "trial-design",
+              "manufacturing",
+              "red-flags",
+              "green-flags"
+            ],
+            "type": "string"
+          },
+          "title": "Modules",
+          "type": "array"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When the fact became public",
+          "title": "Published At"
+        },
+        "related_evidence_ids": {
+          "default": [],
+          "description": "For kind=conflict: the evidence it reconciles",
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Evidence Ids",
+          "type": "array"
+        },
+        "entity_refs": {
+          "additionalProperties": true,
+          "default": {},
+          "description": "nct_id, pmid, drug, target ...",
+          "title": "Entity Refs",
+          "type": "object"
+        },
+        "data": {
+          "additionalProperties": true,
+          "default": {},
+          "description": "Structured fields. Conventions: CT.gov -> status, why_stopped, stop_class, phases, enrollment; conflict -> rule, severity, kill_signal, drug; benchmark -> benchmark=true",
+          "title": "Data",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "url",
+        "retrieved_at",
+        "title",
+        "snippet",
+        "kind",
+        "modules"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Gap": {
+      "additionalProperties": true,
+      "properties": {
+        "question": {
+          "title": "Question",
+          "type": "string"
+        },
+        "requires": {
+          "enum": [
+            "proprietary_data",
+            "patient_data",
+            "kol",
+            "experiment",
+            "cmc_ip"
+          ],
+          "title": "Requires",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "question",
+        "requires",
+        "reason"
+      ],
+      "title": "Gap",
+      "type": "object"
+    },
+    "ResearchInput": {
+      "additionalProperties": true,
+      "properties": {
+        "indication": {
+          "description": "Disease as typed by the user, e.g. \"Crohn's disease\"",
+          "title": "Indication",
+          "type": "string"
+        },
+        "mechanism": {
+          "description": "Mechanism / target as typed, e.g. 'IL-17 inhibition'",
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "modality": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modality"
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stage"
+        },
+        "biomarkers": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Biomarkers"
+        },
+        "route": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route"
+        },
+        "evidence_cutoff": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "If set, the bundle contains only facts public on/before this date (demo).",
+          "title": "Evidence Cutoff"
+        }
+      },
+      "required": [
+        "indication",
+        "mechanism"
+      ],
+      "title": "ResearchInput",
+      "type": "object"
+    },
+    "SourceStatus": {
+      "additionalProperties": true,
+      "properties": {
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "ok": {
+          "title": "Ok",
+          "type": "boolean"
+        },
+        "evidence_count": {
+          "default": 0,
+          "title": "Evidence Count",
+          "type": "integer"
+        },
+        "errors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Errors",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source",
+        "ok"
+      ],
+      "title": "SourceStatus",
+      "type": "object"
+    },
+    "Subject": {
+      "additionalProperties": true,
+      "properties": {
+        "disease": {
+          "$ref": "#/$defs/DiseaseRef"
+        },
+        "targets": {
+          "items": {
+            "$ref": "#/$defs/TargetRef"
+          },
+          "title": "Targets",
+          "type": "array"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "inhibitor / agonist / antagonist / degrader ...",
+          "title": "Action"
+        },
+        "drugs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DrugRef"
+          },
+          "title": "Drugs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "description": "Resolution ambiguities",
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "disease",
+        "targets"
+      ],
+      "title": "Subject",
+      "type": "object"
+    },
+    "TargetRef": {
+      "additionalProperties": true,
+      "properties": {
+        "ensembl_id": {
+          "title": "Ensembl Id",
+          "type": "string"
+        },
+        "symbol": {
+          "description": "HGNC symbol, e.g. IL17A",
+          "title": "Symbol",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "default": "primary",
+          "enum": [
+            "primary",
+            "related"
+          ],
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ensembl_id",
+        "symbol"
+      ],
+      "title": "TargetRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "is_fixture": {
+      "default": false,
+      "description": "True for hand-made test bundles (not real research output)",
+      "title": "Is Fixture",
+      "type": "boolean"
+    },
+    "input": {
+      "$ref": "#/$defs/ResearchInput"
+    },
+    "subject": {
+      "$ref": "#/$defs/Subject"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "trial_benchmarks": {
+      "additionalProperties": true,
+      "default": {},
+      "description": "Ph2/Ph3 base rates in the indication: enrollment, duration, termination rate",
+      "title": "Trial Benchmarks",
+      "type": "object"
+    },
+    "gaps": {
+      "default": [],
+      "description": "What public sources cannot answer",
+      "items": {
+        "$ref": "#/$defs/Gap"
+      },
+      "title": "Gaps",
+      "type": "array"
+    },
+    "cutoff_policy": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Cutoff Policy",
+      "type": "array"
+    },
+    "source_status": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SourceStatus"
+      },
+      "title": "Source Status",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "created_at",
+    "input",
+    "subject",
+    "evidence"
+  ],
+  "title": "EvidenceBundle",
+  "type": "object"
+}
