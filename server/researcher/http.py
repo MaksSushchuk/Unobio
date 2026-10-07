@@ -16,7 +16,9 @@ from typing import Any
 
 import httpx
 
-DEFAULT_CACHE_PATH = Path(__file__).resolve().parent.parent / ".cache" / "http_cache.db"
+from evidence_bundle.paths import CACHE_DIR
+
+DEFAULT_CACHE_PATH = CACHE_DIR / "http_cache.db"  # server/data/cache (evidence_bundle/paths.py)
 DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
 USER_AGENT = "unobio-researcher/0.1 (+https://github.com/)"
 

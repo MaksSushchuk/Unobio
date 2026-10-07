@@ -7,6 +7,7 @@ import secrets
 from datetime import UTC, datetime
 from pathlib import Path
 
+from evidence_bundle.paths import RUNS_DIR as DATA_RUNS_DIR
 from researcher.schema import Bundle, Evidence, LlmCall, ResearchInput, SearchPlan, SourceStatus, Subject
 from researcher.connectors.base import Connector
 from researcher.connectors.clinicaltrials import ClinicalTrialsConnector
@@ -18,7 +19,8 @@ from researcher.planner import plan
 from researcher.reconcile import reconcile
 from researcher.resolve import resolve
 
-RUNS_DIR = Path(__file__).resolve().parent.parent / "evidence_bundle" / "runs"
+RUNS_DIR = DATA_RUNS_DIR  # server/data/runs (evidence_bundle/paths.py): one folder per run, shared by all modules
+BUNDLE_FILE = "researcher_bundle.json"
 
 
 def new_run_id(inp: ResearchInput, now: datetime) -> str:
@@ -82,6 +84,6 @@ def run_connectors(
 def write_bundle(bundle: Bundle, runs_dir: Path | None = None) -> Path:
     out_dir = (runs_dir or RUNS_DIR) / bundle.run_id
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "bundle.json"
+    path = out_dir / BUNDLE_FILE
     path.write_text(bundle.model_dump_json(indent=2))
     return path

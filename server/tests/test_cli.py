@@ -15,4 +15,4 @@ def test_cli_writes_valid_bundle(tmp_path, monkeypatch, capsys):
     assert bundle.subject.indication == "Crohn's disease"
     assert bundle.evidence == []
     assert bundle.plan is not None and bundle.llm_calls == []
-    assert path.endswith(f"{bundle.run_id}/bundle.json")
+    assert path.endswith(f"{bundle.run_id}/researcher_bundle.json")

@@ -3,13 +3,10 @@
 Backend of Unobio: turns an *indication + mechanism* pair into an investment underwriting result.
 
 ```
-            ┌────────────┐  evidence_bundle.json  ┌────────────┐  analysis_result.json  ┌──────────┐
- input ───► │ researcher │ ─────────────────────► │ analytics  │ ─────────────────────► │  writer  │ ──► report.json ──► web
-            └────────────┘                        └─────┬──────┘                        └──────────┘
-                                                        │ (later)
-                                                   ┌────▼────┐
-                                                   │ sceptic │
-                                                   └─────────┘
+            ┌────────────┐ researcher_bundle ┌─────────┐ evidence_bundle ┌───────────┐ analysis_result ┌────────┐
+ input ───► │ researcher │ ────────────────► │ adapter │ ──────────────► │ analytics │ ──────────────► │ writer │ ──► report.json ──► web
+            └────────────┘                   └─────────┘                 └───────────┘                 └────────┘
+                         all steps driven by orchestrator/ (python -m orchestrator), one LLM for every module
 ```
 
 | Folder | Owner | Responsibility |
@@ -17,8 +14,8 @@ Backend of Unobio: turns an *indication + mechanism* pair into an investment und
 | `evidence_bundle/` | shared | **Contract** researcher → analytics (Pydantic models), data paths (`paths.py`), fixture generator |
 | `researcher/` | teammate-2 | Collects evidence from public APIs, writes `evidence_bundle.json` |
 | `analytics/` | Oleksii | Orchestrator, analyst agents, validator, verdict, capital / rNPV → `analysis_result.json` |
-| `sceptic/` | — | Challenges the analysts' claims (if time allows) |
-| `writer/` | teammate-1 | Turns `analysis_result.json` into report text `report.json` (contract: `web/src/types.ts`) |
+| `writer/` | teammate-1 | Narrative (section takeaways, rationale) and the PDF from the analysts' output |
+| `orchestrator/` | — | End-to-end workflow, contract adapters, the final `report.json` (contract: `web/src/types.ts`) |
 | `tests/` | all | Contract and module tests |
 | `data/` | — | **Everything that is not code**: inputs, outputs, generated artifacts (see below) |
 
@@ -32,12 +29,14 @@ data/
   fixtures/          hand-made evidence bundles for development      (committed)
   schema/            JSON Schemas generated from the Pydantic models  (committed)
   runs/<run_id>/     one folder per run                              (git-ignored)
-    evidence_bundle.json    ← researcher
+    researcher_bundle.json  ← researcher (its own schema, researcher/schema.py)
+    evidence_bundle.json    ← orchestrator adapter (contract for analytics)
     analysis_result.json    ← analytics
-    report.json             ← writer
+    report.json             ← orchestrator (web/src/types.ts Report; narrative by writer)
+    report.pdf              ← writer (with --pdf)
     trace.jsonl             ← everyone (one line per step / LLM call)
     context/                ← analytics debug: what each analyst saw
-  cache/             HTTP / LLM response caches, e.g. llm.sqlite     (git-ignored)
+  cache/             HTTP / LLM response caches: http_cache.db, llm.sqlite (git-ignored)
 ```
 
 ## Module interaction rules
@@ -51,8 +50,11 @@ data/
 ```bash
 cd server
 uv venv --python 3.12 && source .venv/bin/activate
-uv pip install -e ".[dev]"
+uv pip install -e ".[dev]" -e ./writer
 cp .env.example .env                                  # LLM settings (provider: fake | ollama | openai)
+python -m orchestrator "Crohn's disease" "IL-17 inhibition"          # full workflow -> data/runs/<id>/report.json
+python -m orchestrator "Crohn's disease" "IL-17 inhibition" --pdf    # + report.pdf
+python -m orchestrator "Crohn's disease" "IL-17 inhibition" --fake   # offline, no model
 python -m analytics.llm                               # check the configured model
 pytest                                                # all tests
 python -m evidence_bundle.fixtures                    # regenerate data/fixtures
