@@ -347,3 +347,60 @@ def test_trial_drug_links_follow_interventions_and_title():
     assert by["iv"].data["drug_relation"] == "subject_mechanism"
     s = out.reconcile_stats
     assert (s.drugs_linked, s.drugs_unlinked) == (2, 1)
+
+
+# --- trial records rebuilt as of the cutoff ------------------------------------------------------------------
+
+
+def _registry_trial(native, *, first, last, status, why=None, start="2010-01-01", end=None, end_type="ACTUAL",
+           enrollment=100, enrollment_type="ACTUAL", results=None):
+    data = {"nct_id": native, "overall_status": status, "why_stopped": why, "phases": ["PHASE3"],
+            "enrollment": enrollment, "enrollment_type": enrollment_type, "start_date": start,
+            "completion_date": end, "completion_date_type": end_type, "first_posted": first,
+            "results_first_posted": results, "last_update_posted": last, "has_results": bool(results),
+            "lead_sponsor": "X"}
+    modules = ("pipeline", "red-flags") if status == "TERMINATED" else ("pipeline",)
+    return _ev("clinicaltrials", native, data=data, modules=modules, published=date.fromisoformat(last))
+
+
+def test_trial_registered_before_cutoff_is_kept_with_later_status_hidden():
+    from researcher.reconcile import trial_as_of
+    ev = _registry_trial("NCT10000001", first="2012-12-01", last="2018-03-01", status="TERMINATED", why="futility",
+                end="2017-02-14", results="2018-03-01")
+    out, _ = trial_as_of(ev, date(2016, 1, 1))
+    assert out is not None and out.published_at == date(2012, 12, 1)
+    d = out.data
+    assert d["overall_status"] == "RECRUITING" and d["why_stopped"] is None
+    assert d["completion_date"] is None and d["enrollment"] is None and not d["has_results"]
+    assert d["last_update_posted"] is None and d["as_of_cutoff"] == "2016-01-01"
+    assert "red-flags" not in out.modules and "futility" not in out.snippet
+
+
+def test_trial_that_ended_before_cutoff_keeps_its_status():
+    from researcher.reconcile import trial_as_of
+    ev = _registry_trial("NCT10000002", first="2010-01-01", last="2019-01-01", status="TERMINATED", why="safety",
+                end="2011-06-01")
+    out, _ = trial_as_of(ev, date(2012, 1, 1))
+    assert out.data["overall_status"] == "TERMINATED" and out.data["why_stopped"] == "safety"
+    assert "red-flags" in out.modules
+
+
+def test_trial_first_posted_after_cutoff_is_dropped_and_not_started_is_flagged():
+    from researcher.reconcile import trial_as_of
+    late = _registry_trial("NCT10000003", first="2013-01-01", last="2014-01-01", status="COMPLETED", end="2013-12-01")
+    assert trial_as_of(late, date(2012, 1, 1))[0] is None
+    planned = _registry_trial("NCT10000004", first="2011-11-01", last="2015-01-01", status="COMPLETED", start="2012-03-01",
+                     end="2014-01-01")
+    assert trial_as_of(planned, date(2012, 1, 1))[0].data["overall_status"] == "NOT_YET_RECRUITING"
+
+
+def test_cutoff_keeps_registered_trials_without_post_cutoff_dates():
+    items = [_registry_trial("NCT10000005", first="2011-01-01", last="2020-01-01", status="TERMINATED", why="efficacy",
+                    end="2015-01-01"),
+             _registry_trial("NCT10000006", first="2013-01-01", last="2020-01-01", status="COMPLETED", end="2015-01-01")]
+    out = reconcile(_bundle(items, cutoff=date(2012, 1, 1)))
+    kept = [e for e in out.evidence if e.source == "clinicaltrials"]
+    assert [e.data["nct_id"] for e in kept] == ["NCT10000005"]
+    assert all(e.published_at <= date(2012, 1, 1) for e in out.evidence if e.published_at)
+    assert out.reconcile_stats.dropped_by_cutoff == 1
+    assert not any(e.data.get("rule") == "stop_reason" for e in out.evidence)  # the 2015 stop is not visible

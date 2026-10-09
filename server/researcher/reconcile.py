@@ -7,7 +7,9 @@ Runs after all connectors, in this order:
    data.subject_drug_chembl_ids / entity_refs.drug / data.drug_relation are made to agree. Other evidence
    without entity_refs.drug is linked to the subject drug it names (interventions, then title, then snippet;
    whole-word, case-insensitive; terms < 4 chars ignored);
-3. evidence_cutoff: drop evidence published after the cutoff; keep undated evidence, except
+3. evidence_cutoff: drop evidence published after the cutoff; ClinicalTrials.gov records are rebuilt as of the
+   cutoff instead (see trial_as_of: a trial counts from its first posting, later status changes are hidden);
+   keep undated evidence, except
 4. leak guard: undated evidence that carries clinical status (Open Targets clinical candidates:
    max stage, trial phases/statuses) is dropped unless every trial it cites has a ClinicalTrials.gov
    record in the bundle dated on or before the cutoff, and it cites no undated non-trial reports
@@ -50,7 +52,8 @@ from typing import Any, Literal
 from pydantic import BaseModel
 
 from researcher.schema import Bundle, DroppedEvidence, Drug, Evidence, ReconcileStats, evidence_id
-from researcher.connectors.clinicaltrials import match_subject_drugs, subject_drug_matchers
+from researcher.connectors.clinicaltrials import STOPPED as CT_STOPPED
+from researcher.connectors.clinicaltrials import _parse_date, _snippet, match_subject_drugs, subject_drug_matchers
 from researcher.llm import LLM, LlmError
 
 _MIN_TERM_LEN = 4
@@ -189,15 +192,23 @@ def _dedupe_terms(terms: list[str]) -> list[str]:
 
 
 def _apply_cutoff(evidence: list[Evidence], cutoff: date, dropped: list[DroppedEvidence]) -> list[Evidence]:
-    # Dates of ClinicalTrials.gov records (last update posted), before anything is dropped.
+    # Dates of ClinicalTrials.gov records (last update posted), before anything is dropped. The leak guard
+    # needs the LAST update: an undated status claim citing a trial updated after the cutoff could leak.
     trial_dates: dict[str, date | None] = {}
     for ev in evidence:
         nct = ev.data.get("nct_id") if ev.source == "clinicaltrials" else None
         if nct:
-            trial_dates[nct.upper()] = ev.published_at
+            trial_dates[nct.upper()] = _parse_date(ev.data.get("last_update_posted")) or ev.published_at
 
     kept: list[Evidence] = []
     for ev in evidence:
+        if ev.source == "clinicaltrials" and ev.data.get("first_posted"):
+            as_of, reason = trial_as_of(ev, cutoff)
+            if as_of is None:
+                dropped.append(_drop(ev, "cutoff", reason))
+            else:
+                kept.append(as_of)
+            continue
         if ev.published_at is not None and ev.published_at > cutoff:
             dropped.append(_drop(ev, "cutoff", f"published {ev.published_at} > cutoff {cutoff}"))
         elif ev.published_at is None and (reason := _leak(ev, trial_dates, cutoff)):
@@ -205,6 +216,64 @@ def _apply_cutoff(evidence: list[Evidence], cutoff: date, dropped: list[DroppedE
         else:
             kept.append(ev)
     return kept
+
+
+# Statuses that end a trial; kept as of the cutoff only if the (actual) completion date is on or before it.
+_FINAL_STATUSES = ("COMPLETED", "TERMINATED", "WITHDRAWN")
+AS_OF_NOTE = "status reconstructed as of the evidence cutoff; later changes hidden"
+
+
+def trial_as_of(ev: Evidence, cutoff: date) -> tuple[Evidence | None, str]:
+    """A ClinicalTrials.gov record as it stood on `cutoff`, or (None, reason) if it was not public yet.
+
+    The registry keeps updating a record long after the trial ends (results, corrections), so its last-update
+    date says nothing about when the trial became known. The trial exists from its first posting; what changed
+    after the cutoff is hidden instead of dropping the whole record:
+      * first posted after the cutoff                   -> dropped
+      * last updated on or before the cutoff            -> unchanged
+      * ended (COMPLETED/TERMINATED/WITHDRAWN) with an ACTUAL completion date on or before the cutoff
+                                                        -> status and stop reason kept
+      * otherwise                                       -> status RECRUITING (started) or NOT_YET_RECRUITING,
+                                                           no stop reason, no later completion date / actual
+                                                           enrollment / results
+    The completion date of a stopped trial is the stop date; the API has no public version history, so this is
+    the closest as-of view available.
+    """
+    d = ev.data
+    first = _parse_date(d.get("first_posted"))
+    if first is not None and first > cutoff:
+        return None, f"first posted {first} > cutoff {cutoff}"
+    last = _parse_date(d.get("last_update_posted"))
+    if last is not None and last <= cutoff:
+        return ev, ""
+
+    data = dict(d)
+    status = data.get("overall_status")
+    end = _parse_date(data.get("completion_date"))
+    ended_before = (status in _FINAL_STATUSES and end is not None and end <= cutoff
+                    and data.get("completion_date_type") == "ACTUAL")
+    if not ended_before:
+        start = _parse_date(data.get("start_date"))
+        data["overall_status"] = "RECRUITING" if start is not None and start <= cutoff else "NOT_YET_RECRUITING"
+        data["why_stopped"] = None
+        if end is not None and end > cutoff:
+            data["completion_date"], data["completion_date_type"] = None, None
+        if data.get("enrollment_type") == "ACTUAL":
+            data["enrollment"], data["enrollment_type"] = None, None
+    results = _parse_date(data.get("results_first_posted"))
+    if results is None or results > cutoff:
+        data["has_results"], data["results_first_posted"] = False, None
+    data["last_update_posted"] = None
+    data["as_of_cutoff"] = cutoff.isoformat()
+    data["status_note"] = AS_OF_NOTE
+
+    modules = list(ev.modules)
+    if data["overall_status"] not in CT_STOPPED and "red-flags" in modules:
+        modules.remove("red-flags")
+    return ev.model_copy(update={
+        "data": data, "modules": modules, "published_at": first,
+        "snippet": f"{_snippet(data)} [as of {cutoff.isoformat()}]",
+    }), ""
 
 
 def _leak(ev: Evidence, trial_dates: dict[str, date | None], cutoff: date) -> str | None:
@@ -534,7 +603,11 @@ class _Rules:
     def r3_stale_active(self) -> None:
         for nct, ct in self.ct.items():
             status = ct.data.get("overall_status")
-            updated = ct.published_at
+            # the registry's last update (published_at is the first posting); None for as-of reconstructions
+            updated = _parse_date(ct.data.get("last_update_posted"))
+            if ct.data.get("as_of_cutoff") or (updated is None and ct.data.get("first_posted")):
+                continue
+            updated = updated or ct.published_at
             if status not in ACTIVE or updated is None:
                 continue
             months = _months_between(updated, self.as_of)

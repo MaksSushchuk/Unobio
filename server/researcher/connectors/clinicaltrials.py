@@ -20,7 +20,8 @@ Query parameters and response fields were checked against live responses (API 2.
 query.cond, query.intr (Essie syntax: quoted terms joined by OR), filter.overallStatus (comma list),
 filter.advanced (AREA[Phase](PHASE2 OR PHASE3)), fields, pageSize, pageToken -> nextPageToken;
 protocolSection.{identificationModule.{nctId,briefTitle}, statusModule.{overallStatus,whyStopped,
-startDateStruct,completionDateStruct,lastUpdatePostDateStruct}, sponsorCollaboratorsModule.leadSponsor,
+startDateStruct,completionDateStruct{date,type},studyFirstPostDateStruct,resultsFirstPostDateStruct,
+lastUpdatePostDateStruct}, sponsorCollaboratorsModule.leadSponsor,
 conditionsModule.conditions, designModule.{phases,enrollmentInfo}, armsInterventionsModule.interventions
 [{type,name,otherNames}], outcomesModule.primaryOutcomes[{measure,timeFrame}]}, hasResults.
 """
@@ -179,6 +180,10 @@ class _Run:
             "enrollment_type": enrollment.get("type"),
             "start_date": _get(status, "startDateStruct", "date"),
             "completion_date": _get(status, "completionDateStruct", "date"),
+            "completion_date_type": _get(status, "completionDateStruct", "type"),  # ACTUAL | ESTIMATED
+            # first_posted / results_first_posted let reconcile rebuild the record as of an evidence cutoff
+            "first_posted": _get(status, "studyFirstPostDateStruct", "date"),
+            "results_first_posted": _get(status, "resultsFirstPostDateStruct", "date"),
             "last_update_posted": last_update,
             "has_results": bool(study.get("hasResults")),
             "lead_sponsor": _get(p, "sponsorCollaboratorsModule", "leadSponsor", "name"),
