@@ -60,7 +60,8 @@ Files are written to `data/runs/<bundle_run_id>/context/` (`header.md`, `<lens>.
 Design choices:
 - **Header is shared** and identical across lenses, so providers that cache prompt prefixes charge for it once.
 - **Must-see evidence is never dropped.** If it alone exceeds the budget, `p0_overflow = true` is reported instead.
-- **Aggregates** (≥ 5 homogeneous items, e.g. approved therapies) are one card; citing `A1` resolves to all members.
+- **Aggregates** (≥ 5 homogeneous items, e.g. approved therapies) are one card; citing `A1` resolves to its first
+  `MAX_AGGREGATE_MEMBERS` (5) members (`lenses/mapping.py`), so a claim never cites a hundred landscape trials.
 - **Nothing is hidden silently**: ids that did not fit are listed under "NOT SHOWN", so an agent can request them via `need_detail`.
 
 ## LLM layer (step 3) — `analytics/llm/`
@@ -72,7 +73,7 @@ Agents never know which provider is behind it; switching model = editing `.env`.
 agent ─► ResilientLLM ─► cache hit? ─► return stored answer (free, identical)
                   │
                   ├─► concurrency limit (LLM_MAX_CONCURRENCY)
-                  ├─► provider: Ollama (native /api/chat) | OpenAI-compatible (/chat/completions) | FakeLLM
+                  ├─► provider: Ollama (native /api/chat) | Gemini (native generateContent) | OpenAI-compatible | FakeLLM
                   └─► retry with backoff on network errors, 429, 5xx (not on 4xx)
 ```
 
@@ -80,7 +81,7 @@ agent ─► ResilientLLM ─► cache hit? ─► return stored answer (free, i
 |---|---|
 | `base.py` | `LLMRequest`, `LLMResponse`, `LLMClient` protocol, `LLMError` |
 | `config.py` | `LLMSettings.from_env()` — reads `LLM_*` variables (and `server/.env`); price → cost per call |
-| `providers.py` | `OllamaProvider` (sets `num_ctx` per request, JSON Schema via `format`, detects silent truncation), `OpenAICompatProvider` (Groq, OpenRouter, OpenAI, vLLM, ...) |
+| `providers.py` | `OllamaProvider` (sets `num_ctx` per request, JSON Schema via `format`, detects silent truncation), `GeminiProvider` (`GEMINI_API_KEY` / `GEMINI_MODEL`, waits on 429 `retryDelay`), `OpenAICompatProvider` (Groq, OpenRouter, OpenAI, vLLM, ...) |
 | `fake.py` | `FakeLLM` — scripted answers by request `tag`, records calls; for tests and offline work |
 | `resilient.py` | `ResilientLLM` — cache (`data/cache/llm.sqlite`), concurrency limit, transport retries |
 | `json_utils.py` | `extract_json` — gets the JSON object out of fenced / chatty model output |
@@ -88,7 +89,7 @@ agent ─► ResilientLLM ─► cache hit? ─► return stored answer (free, i
 Setup and smoke test:
 
 ```bash
-cp .env.example .env          # choose provider: fake | ollama | openai
+cp .env.example .env          # choose provider: fake | gemini | ollama | openai
 python -m analytics.llm       # checks connectivity + JSON output + token/cost accounting
 ```
 
@@ -190,7 +191,7 @@ all thresholds live in `VerdictConfig`.
 | 2 | **Floors** — science ≤ 1 (biology contradicted) or clinical ≤ 0 | Do Not Invest |
 | 3 | **Composite** — weighted mean of available lens scores (science 0.35, clinical 0.25, market 0.20, investment 0.20) | ≥ 3.5 Invest · < 2.0 Do Not Invest · else Conditional |
 | 4 | **Caps** — high-severity conflicts, failed lenses, any lens < 3, science < 3, overridden kills | Invest → Conditional |
-| 5 | **Confidence** — 0.35·coverage + 0.35·agreement of lens scores + 0.30·sourced claims; floor 0.80+ when kill signals come from independent programs | 0.2 – 0.95 |
+| 5 | **Confidence** — how well-founded the verdict is: mean of coverage, agreement of lens scores, sourced claims, evidence depth (primary items and sources) and margin from the deciding threshold; floor 0.80 + 0.05 per extra independent failed program | 0.2 – 0.95 |
 
 `decide(..., kill_overrides={ids})` lets a later step (adjudicator, step 10) mark a kill signal as not
 target-related; it then no longer forces Do Not Invest but still caps the verdict at Conditional.
@@ -271,6 +272,8 @@ result = await analyze(bundle, make_llm(), RunOptions(budget_tokens=6000), on_ev
 
 - A failed lens never breaks the run: it is marked `status="failed"`, reported as an `error` event,
   and the verdict caps itself (missing lens → at most Conditional, lower confidence).
+- A lens whose context has no evidence is not sent to the model: `status="skipped"`, and "no public evidence
+  for this lens" becomes a critical unknown (same verdict cap as a failed lens).
 - `analysis_result.json` is the contract for writer (`analytics/schemas.py`); `short_ids` maps
   `E3` → evidence id so inline references in rationales can be linked.
 - `trace.jsonl`: one line per LLM call and per code step; the last line (`step="total"`) has the
@@ -289,6 +292,7 @@ result = await analyze(bundle, make_llm(), RunOptions(budget_tokens=6000), on_ev
 | 7 | Capital and rNPV from lens params + `trial_benchmarks` (ranges + listed assumptions) | ✅ |
 | 8 | Risks, unknowns, diligence questions | ✅ |
 | 9 | Orchestrator: pipeline, events, token guard, traces, CLI `python -m analytics <bundle>` | ✅ |
-| 10 | (optional) Adjudicator for kill candidates, sceptic hook | |
+| 10 | End-to-end integration: researcher adapter, writer, HTTP API, web live run (`server/app/`) | ✅ |
+| 11 | (optional) Adjudicator for kill candidates, sceptic hook | |
 
 After step 9 the system produces a full `analysis_result.json` on fixtures; every later step improves quality and can be stopped at any time.

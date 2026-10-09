@@ -77,7 +77,11 @@ server/
 - `Evidence.modules` must use only the 11 module names in `schema.Module`.
 - `kind="conflict"` evidence links the disagreeing items via `related_evidence_ids`
   (and `data.supporting` / `data.contradicting`).
-- Respect `ResearchInput.evidence_cutoff`: drop evidence published after it.
+- Respect `ResearchInput.evidence_cutoff`: drop evidence published after it. ClinicalTrials.gov records are
+  rebuilt as of the cutoff instead of dropped by their last-update date (`reconcile.trial_as_of`): a trial counts
+  from `first_posted`; one last updated after the cutoff keeps its status only if it ended (COMPLETED / TERMINATED /
+  WITHDRAWN) with an ACTUAL completion date on or before it, else it becomes RECRUITING / NOT_YET_RECRUITING with
+  no why_stopped, later completion date, actual enrollment or results (`data.as_of_cutoff`, `data.status_note`).
   Evidence with `published_at=None` is never dropped. Open Targets records are not dated per record
   (`opentargets` evidence always has `published_at=None`), so the cutoff does not filter them; they reflect
   the current platform release.

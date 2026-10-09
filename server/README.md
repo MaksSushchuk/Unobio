@@ -72,7 +72,7 @@ cp .env.example .env                  # GEMINI_* (researcher), LLM_* (analysts),
 ```bash
 # 1) one run from the command line
 python -m app run "Crohn's disease" "IL-17 inhibition"                       # live public APIs
-python -m app run "Crohn's disease" "IL-17 inhibition" --cutoff 2011-06-30   # evidence as known then
+python -m app run "Crohn's disease" "IL-17 inhibition" --cutoff 2009-01-01   # evidence as known then
 python -m app run "Crohn's disease" "IL-17 inhibition" --source fixture      # offline demo data
 python -m app run "x" "y" --bundle evidence_bundle/examples/il17_crohns.json # a saved bundle
 python -m app run ... --no-pdf                                               # skip the writer (no narrative, no PDF)
@@ -88,6 +88,11 @@ Without a running backend the web UI falls back to its simulated run on fixtures
 | `UNOBIO_RESEARCH` | `live` | `live` = public APIs, `fixture` = `data/fixtures` (offline demo) |
 | `UNOBIO_PDF` | `1` | writer step on every run: narrative texts + `report.pdf` (same LLM as the analysts; needs `uv pip install -e ./writer`) |
 | `LLM_PROVIDER` | `fake` | analysts' model: `fake` (offline stand-in) / `gemini` (uses `GEMINI_API_KEY` + `GEMINI_MODEL`, like the researcher) / `ollama` / `openai` |
+| `LLM_CACHE` | `1` | `0` = do not reuse cached LLM answers (`data/cache/llm.sqlite`); same request = same answer otherwise |
+
+**Evidence as of a date** (`--cutoff`, web field *Evidence as of*): everything published later is dropped, and
+ClinicalTrials.gov records are rebuilt as they stood then (a trial counts from its first posting; a trial still
+running then shows no later stop or results). Text inputs are normalized (typographic quotes and dashes → ASCII).
 
 ## HTTP API (`app/server.py`)
 
