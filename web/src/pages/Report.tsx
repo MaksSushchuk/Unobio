@@ -1,10 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Activity, ArrowLeft, BookOpen, Construction, GitCompareArrows, Library, SearchX, type LucideIcon } from 'lucide-react'
+import { Activity, ArrowLeft, BookOpen, GitCompareArrows, Library, ListTree, SearchX, type LucideIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router'
-import { getPreviousRun, getReport } from '../api'
+import { getPreviousRun, getReport, hasDownloads } from '../api'
+import ChangesTab from '../components/report/ChangesTab'
+import Downloads from '../components/report/Downloads'
 import ReportHeader from '../components/report/ReportHeader'
+import EvidenceTab from '../components/report/EvidenceTab'
 import ReportTab from '../components/report/ReportTab'
+import TracesTab from '../components/report/TracesTab'
 import type { Report } from '../types'
 
 type TabId = 'report' | 'evidence' | 'changes' | 'traces'
@@ -59,7 +63,18 @@ export default function ReportPage() {
 
   return (
     <div className="space-y-8">
+      {hasDownloads(report.id) && (
+        <Link
+          to={`/?run=${encodeURIComponent(report.id)}`}
+          className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <ListTree className="h-4 w-4" />
+          Back to the run (pipeline and logs)
+        </Link>
+      )}
       <ReportHeader report={report} />
+      <Downloads id={report.id} />
 
       <div>
         <div role="tablist" aria-label="Report views" className="flex gap-6 overflow-x-auto border-b border-slate-200">
@@ -105,24 +120,18 @@ export default function ReportPage() {
             transition={{ duration: 0.2, ease: 'easeOut' }}
             className="pt-8"
           >
-            {tab === 'report' ? (
-              <ReportTab report={report} />
+            {tab === 'evidence' ? (
+              <EvidenceTab report={report} />
+            ) : tab === 'traces' ? (
+              <TracesTab report={report} />
+            ) : tab === 'changes' && previous ? (
+              <ChangesTab previous={previous} report={report} />
             ) : (
-              <ComingSoon label={TABS.find((t) => t.id === tab)!.label} />
+              <ReportTab report={report} />
             )}
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
-  )
-}
-
-function ComingSoon({ label }: { label: string }) {
-  return (
-    <div className="flex flex-col items-center rounded-xl border border-dashed border-slate-300 bg-white/60 px-6 py-16 text-center">
-      <Construction className="h-6 w-6 text-slate-400" />
-      <p className="mt-3 text-sm font-medium text-slate-900">{label} — coming soon</p>
-      <p className="mt-1 text-sm text-slate-500">This view isn’t built yet.</p>
     </div>
   )
 }

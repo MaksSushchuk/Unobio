@@ -7,8 +7,10 @@ system produces an underwriting report: a recommendation (`invest` /
 unknowns, diligence questions, a capital-to-milestone estimate, and agent traces.
 A rerun of the same input links to its predecessor so the UI can show what changed.
 
-This package is **frontend only**. A Python backend will exist later; until then
-all data comes from local JSON fixtures.
+This package is **frontend only**. The Python backend lives in `../server`
+(`python -m app serve`, API under `/api`, proxied by Vite in dev). When no
+backend is running, the UI falls back to the local JSON fixtures and the
+simulated run.
 
 ## Stack
 
@@ -35,7 +37,12 @@ all data comes from local JSON fixtures.
   pipeline diagram, counters and log all render from it
 - `src/components/pipeline/` — simulated run: `timeline.ts` (config → timed
   events; state is a pure function of elapsed ms), `layout.ts` (diagram
-  geometry), `PipelineDiagram.tsx`, `PipelineRun.tsx`
+  geometry), `PipelineDiagram.tsx`, `PipelineRun.tsx`; real backend run:
+  `LiveRun.tsx` (progress events from `watchRun`). `LiveRun` renders the same
+  `PipelineDiagram` (arrows between steps) from its own step list via
+  `toPipeline` / `toRunState`; the source chips come from the research event's
+  `sources`. The diagram has no error state: a failed step stays "queued" and is
+  listed (with skipped analysts) in the notes under the diagram.
 - Animations use `framer-motion`, icons `lucide-react`. `AppShell` wraps the app
   in `<MotionConfig reducedMotion="user">`; looping/drawing animations also
   check `useReducedMotion()`.
@@ -52,27 +59,37 @@ report page.
 - Input form for `ReportInput` (indication, mechanism required; modality,
   stage, biomarkers, route optional).
 - Presets that prefill the form (e.g. Crohn's disease + IL-17 inhibition).
-- Submit plays a **simulated** live agent log (client-side timers, no network),
-  then navigates to `/runs/:id` of a fixture report.
+- Optional run options (not part of `ReportInput`): *Evidence as of* (cutoff
+  date) and *Evidence source* (live public APIs / demo fixtures).
+- Submit: with a backend, `startRun` + `LiveRun` (real progress). The run is
+  addressed by the URL (`/?run=<id>`) and **stays on this screen when it
+  finishes**: verdict, summary, "Open report" and "What changed" buttons;
+  it survives reloads and the back button (`getRun` restores input/options).
+  Without a backend: the **simulated** agent log (client-side timers), then a
+  fixture report.
 
 ### `/runs/:id` — Report
 
-Loads with `getReport(id)` and `getPreviousRun(id)`. Tabs:
+Loads with `getReport(id)` and `getPreviousRun(id)`. For backend reports, a
+"Back to the run" link above the header opens `/?run=<id>` (pipeline and logs)
+and the download bar (`Downloads.tsx`) sits under the header. Tabs (one
+component each in `src/components/report/`):
 
 1. **Report** — verdict (recommendation + confidence + summary), sections
    (title + optional `summary` thesis) with claims (source_fact vs inference,
    confidence) and expandable evidence per claim showing stance, then risks,
    unknowns, diligence questions (each with `rationale`), capital.
-2. **Evidence** — table of all `report.evidence` with filters (kind, source,
-   module, stance); `kind: "conflict"` rows and contradicting evidence are
-   visually highlighted.
-3. **What changed** — diff against the previous run of the same input
+2. **Evidence** (`EvidenceTab.tsx`) — all `report.evidence` with search and
+   filters (kind, source, module, stance); stance and counts are derived from
+   the claims citing each item; `kind: "conflict"` rows and contradicting
+   evidence are visually highlighted.
+3. **What changed** (`ChangesTab.tsx`) — diff against the previous run of the same input
    (recommendation, confidence, claims, evidence, risks, unknowns, capital).
    **Rendered only when `getPreviousRun` returns a report**; otherwise the tab
    is hidden. The diff is computed client-side by `diffReports` in
    `src/lib/diff.ts` (see Diffing below).
-4. **Traces** — table of `report.traces`: agent, step, tool, tokens, latency,
-   cost, with totals.
+4. **Traces** (`TracesTab.tsx`) — `report.traces`: cost per run, LLM calls,
+   tokens; per-agent summary (click to filter) and the step table with totals.
 
 ## Contract notes
 
@@ -101,18 +118,22 @@ The backend only returns `Report`s; comparisons are never fetched. Use
 ## Rules
 
 1. **All data access goes through `src/api.ts`.** Components never import
-   fixtures directly. `api.ts` exposes async functions that currently resolve
-   fixtures and will later be replaced by `fetch` calls with identical
-   signatures:
-   - `getReport(id): Promise<Report>` — throws if not found
+   fixtures directly or call `fetch` themselves. `api.ts` exposes:
+   - `getReport(id): Promise<Report>` — fixture ids resolve locally, others
+     from `GET /api/runs/:id/report`; throws if not found
    - `getPreviousRun(id): Promise<Report | null>` — earlier run with the same
      input (via `previous_run_id`), or `null`
+   - `getBackendHealth()`, `startRun(input, options)`, `getRun(id)`, `watchRun(id, onEvent, onEnd)`,
+     `reportPdfUrl(id)` — live runs against the backend
+   - `hasDownloads(id)`, `downloadUrl(id, 'md' | 'pdf' | 'zip')` — report files;
+     `components/report/Downloads.tsx` shows them on the report page and on a
+     finished live run
 2. **Types live in `src/types.ts` and are the contract with the future Python
    backend.** Keep field names snake_case to mirror the backend JSON. Changing
    a type is a contract change — update fixtures to match. UI-only derived
    types (e.g. diff results) live next to the code that computes them, not in
    `types.ts`.
-3. **No backend code, no external services.** No servers, no API calls, no
-   third-party SDKs/analytics, no runtime network requests. Fixture URLs are
-   display-only links.
+3. **No backend code, no external services.** The only network calls are to
+   our own backend under `/api` (through `api.ts`). No third-party
+   SDKs/analytics. Evidence URLs are display-only links.
 4. Fixtures carry `"is_mock": true`; the UI should make mock data visible as such.

@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronRight, ShieldCheck, Scale, type LucideIcon } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useNavigate, useSearchParams } from 'react-router'
+import { getBackendHealth, getRun, startRun, type BackendHealth, type RunOptions } from '../api'
+import LiveRun from '../components/pipeline/LiveRun'
 import PipelineRun from '../components/pipeline/PipelineRun'
 import { rise, stagger } from '../lib/motion'
 import { RESULT_RUN_ID } from '../pipeline.config'
@@ -16,6 +18,9 @@ interface FormState {
   stage: string
   biomarkers: string
   route: string
+  /** Run options (not part of ReportInput): evidence cutoff date and evidence source. */
+  cutoff: string
+  source: '' | 'live' | 'fixture'
 }
 
 const EMPTY_FORM: FormState = {
@@ -25,6 +30,8 @@ const EMPTY_FORM: FormState = {
   stage: '',
   biomarkers: '',
   route: '',
+  cutoff: '',
+  source: '',
 }
 
 const PRESETS: { label: string; tag: string; icon: LucideIcon; form: FormState }[] = [
@@ -39,6 +46,8 @@ const PRESETS: { label: string; tag: string; icon: LucideIcon; form: FormState }
       stage: 'Phase 1 complete (healthy volunteers)',
       biomarkers: 'fecal calprotectin, CRP, mucosal IL17A expression',
       route: 'subcutaneous',
+      cutoff: '',
+      source: '',
     },
   },
   {
@@ -52,12 +61,21 @@ const PRESETS: { label: string; tag: string; icon: LucideIcon; form: FormState }
       stage: 'Phase 2',
       biomarkers: 'LDL-C, Lp(a), PCSK9 plasma levels',
       route: 'subcutaneous',
+      cutoff: '',
+      source: '',
     },
   },
 ]
 
 // Order fields flash in after a preset is applied.
 const FIELD_ORDER: (keyof FormState)[] = ['indication', 'mechanism', 'modality', 'stage', 'biomarkers', 'route']
+
+function toRunOptions(form: FormState): RunOptions {
+  const options: RunOptions = {}
+  if (/^\d{4}-\d{2}-\d{2}$/.test(form.cutoff.trim())) options.evidence_cutoff = form.cutoff.trim()
+  if (form.source) options.source = form.source
+  return options
+}
 
 function toReportInput(form: FormState): ReportInput {
   const input: ReportInput = {
@@ -82,6 +100,46 @@ export default function NewAnalysis() {
   // Bumped on each preset click; keys the highlight animation on filled fields.
   const [flash, setFlash] = useState(0)
   const [runInput, setRunInput] = useState<ReportInput | null>(null)
+  const [runOptions, setRunOptions] = useState<RunOptions>({})
+  // null = no backend running: the submit plays the simulated run on fixtures.
+  const [backend, setBackend] = useState<BackendHealth | null>(null)
+  // A live run is addressed by the URL (/?run=<id>), so it stays on this screen after it
+  // finishes, survives a reload and can be reopened with the browser's back button.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const runId = searchParams.get('run')
+  const [startError, setStartError] = useState<string | null>(null)
+  // Which run `runInput` / `runOptions` belong to (a different ?run= must reload them).
+  const [loadedFor, setLoadedFor] = useState<string | null>(null)
+
+  useEffect(() => {
+    getBackendHealth().then(setBackend)
+  }, [])
+
+  // Opened by URL (reload / back): fetch what the run was started with.
+  useEffect(() => {
+    if (!runId || loadedFor === runId) return
+    let cancelled = false
+    getRun(runId)
+      .then((info) => {
+        if (cancelled) return
+        setRunOptions(info.options)
+        setRunInput(info.input)
+        setLoadedFor(runId)
+      })
+      .catch(() => !cancelled && setSearchParams({}, { replace: true }))
+    return () => {
+      cancelled = true
+    }
+  }, [runId, loadedFor, setSearchParams])
+
+  // Live runs are shown only while the URL has ?run= (the header link or back button leaves them);
+  // the simulated run (no backend) is plain component state.
+  const visibleInput = runId ? (loadedFor === runId ? runInput : null) : backend ? null : runInput
+
+  function closeRun() {
+    setRunInput(null)
+    setSearchParams({})
+  }
 
   const canSubmit = form.indication.trim() !== '' && form.mechanism.trim() !== ''
 
@@ -97,7 +155,22 @@ export default function NewAnalysis() {
 
   function onSubmit(e: FormEvent) {
     e.preventDefault()
-    if (canSubmit) setRunInput(toReportInput(form))
+    if (!canSubmit) return
+    const input = toReportInput(form)
+    const options = toRunOptions(form)
+    setStartError(null)
+    if (!backend) {
+      setRunInput(input) // simulated run on fixtures
+      return
+    }
+    startRun(input, options)
+      .then((id) => {
+        setRunOptions(options)
+        setRunInput(input)
+        setLoadedFor(id)
+        setSearchParams({ run: id })
+      })
+      .catch((err: unknown) => setStartError(err instanceof Error ? err.message : String(err)))
   }
 
   const fieldProps = (field: keyof FormState) => ({
@@ -111,7 +184,7 @@ export default function NewAnalysis() {
     <div className="relative isolate">
       <HeaderBackdrop />
       <AnimatePresence mode="wait">
-        {runInput ? (
+        {visibleInput ? (
           <motion.div
             key="run"
             initial={{ opacity: 0, y: 12 }}
@@ -119,11 +192,22 @@ export default function NewAnalysis() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <PipelineRun
-              input={runInput}
-              onComplete={() => navigate(`/runs/${RESULT_RUN_ID}`)}
-              onCancel={() => setRunInput(null)}
-            />
+            {runId ? (
+              <LiveRun
+                key={runId}
+                runId={runId}
+                input={visibleInput}
+                options={runOptions}
+                onOpenReport={(id, tab) => navigate(`/runs/${id}${tab ? `?tab=${tab}` : ''}`)}
+                onNew={closeRun}
+              />
+            ) : (
+              <PipelineRun
+                input={visibleInput}
+                onComplete={() => navigate(`/runs/${RESULT_RUN_ID}`)}
+                onCancel={() => setRunInput(null)}
+              />
+            )}
           </motion.div>
         ) : (
           <motion.div
@@ -192,6 +276,24 @@ export default function NewAnalysis() {
                             {...fieldProps('biomarkers')}
                           />
                           <Field label="Route" placeholder="e.g. subcutaneous" {...fieldProps('route')} />
+                          <Field
+                            label="Evidence as of"
+                            hint="YYYY-MM-DD, empty = today"
+                            placeholder="e.g. 2011-06-30"
+                            {...fieldProps('cutoff')}
+                          />
+                          <label className="block">
+                            <span className="text-sm font-medium text-slate-700">Evidence source</span>
+                            <select
+                              value={form.source}
+                              onChange={(e) => update('source', e.target.value)}
+                              className="mt-1.5 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-xs focus:border-slate-500 focus:ring-2 focus:ring-slate-200 focus:outline-none"
+                            >
+                              <option value="">Backend default{backend ? ` (${backend.research})` : ''}</option>
+                              <option value="live">Live public APIs</option>
+                              <option value="fixture">Demo fixtures (offline)</option>
+                            </select>
+                          </label>
                         </div>
                       </motion.div>
                     )}
@@ -200,7 +302,15 @@ export default function NewAnalysis() {
               </div>
 
               <div className="flex items-center justify-end gap-3 rounded-b-xl border-t border-slate-100 bg-slate-50/60 px-6 py-4">
+                {startError && <span className="text-xs text-rose-600">{startError}</span>}
                 {!canSubmit && <span className="text-xs text-slate-400">Indication and mechanism are required</span>}
+                {canSubmit && (
+                  <span className="text-xs text-slate-400">
+                    {backend
+                      ? `Backend: ${backend.llm_provider}${backend.llm_model ? ` · ${backend.llm_model}` : ''}`
+                      : 'No backend running — simulated run on demo data'}
+                  </span>
+                )}
                 <button
                   type="submit"
                   disabled={!canSubmit}
