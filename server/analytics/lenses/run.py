@@ -22,7 +22,7 @@ from ..context.cards import full_card
 from ..schemas import LENSES, AgentTrace, Lens, LensResult
 from .answers import LensAnswer
 from .definitions import LENS_DEFS
-from .mapping import failed_result, to_lens_result
+from .mapping import failed_result, skipped_result, to_lens_result
 from .validation import make_validator, norm
 
 MAX_DETAIL_IDS = 8
@@ -53,6 +53,10 @@ def lens_user_prompt(lens: Lens, ctx: RunContext, extra_cards: str = "") -> str:
 
 async def run_lens(lens: Lens, bundle: EvidenceBundle, ctx: RunContext, runner: AgentRunner,
                    model: str | None = None, detail_round: bool = True) -> LensRun:
+    lc = ctx.lenses[lens]
+    if not lc.shown_ids and not lc.aggregate_ids and not lc.dropped_ids:
+        # Nothing to analyse: an LLM call would only invent claims (or fail the min-1-evidence rule 3 times).
+        return LensRun(skipped_result(lens), [])
     spec = lens_spec(lens, model)
     first = await runner.run(spec, lens_user_prompt(lens, ctx), validate=make_validator(bundle, ctx, lens))
     traces = list(first.traces)

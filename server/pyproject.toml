@@ -7,17 +7,20 @@ dependencies = [
     "pydantic>=2.6",
     "google-genai>=1.0",
     "python-dotenv>=1.0",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+# PDF report: the writer is a separate package in ./writer -> uv pip install -e ./writer
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["evidence_bundle*", "analytics*", "researcher*", "writer*", "sceptic*"]
+include = ["evidence_bundle*", "analytics*", "researcher*", "writer*", "sceptic*", "app*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

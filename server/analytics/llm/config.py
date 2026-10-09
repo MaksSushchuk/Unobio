@@ -2,12 +2,14 @@
 
 | Variable            | Default            | Meaning                                                     |
 |---------------------|--------------------|-------------------------------------------------------------|
-| LLM_PROVIDER        | fake               | fake | ollama | openai (any OpenAI-compatible API)          |
+| LLM_PROVIDER        | fake               | fake | gemini | ollama | openai (any OpenAI-compatible API) |
+| GEMINI_API_KEY      | (empty)            | gemini: API key (shared with the researcher); LLM_API_KEY wins |
+| GEMINI_MODEL        | gemini-flash-latest| gemini: model (shared with the researcher); LLM_MODEL wins  |
 | LLM_BASE_URL        | provider default   | ollama: http://localhost:11434 ; openai: https://.../v1     |
 | LLM_API_KEY         | (empty)            | Bearer token for OpenAI-compatible APIs                    |
 | LLM_MODEL           | provider default   | e.g. qwen2.5:14b, llama-3.3-70b-versatile, gpt-4o-mini      |
 | LLM_NUM_CTX         | 16384              | Ollama context window (Ollama defaults to 2048 and truncates silently!) |
-| LLM_JSON_MODE       | schema             | schema | object | none — how strictly JSON is requested     |
+| LLM_JSON_MODE       | schema (gemini: object) | schema | object | none — how strictly JSON is requested |
 | LLM_PRICE_IN/OUT    | 0                  | USD per 1M input / output tokens (for cost per run)        |
 | LLM_TIMEOUT         | 180                | seconds per call                                            |
 | LLM_MAX_CONCURRENCY | 2                  | parallel calls (a shared Ollama server queues anyway)       |
@@ -22,12 +24,13 @@ from typing import Literal
 
 from evidence_bundle.paths import CACHE_DIR, SERVER_DIR
 
-Provider = Literal["fake", "ollama", "openai"]
+Provider = Literal["fake", "gemini", "ollama", "openai"]
 JsonMode = Literal["schema", "object", "none"]
 
 DEFAULTS = {
     "ollama": ("http://localhost:11434", "qwen2.5:14b"),
     "openai": ("https://api.openai.com/v1", "gpt-4o-mini"),
+    "gemini": ("https://generativelanguage.googleapis.com/v1beta", "gemini-flash-latest"),
     "fake": ("", "fake-model"),
 }
 
@@ -71,13 +74,17 @@ class LLMSettings:
         if provider not in DEFAULTS:
             raise ValueError(f"LLM_PROVIDER must be one of {list(DEFAULTS)}, got {provider!r}")
         base_url, model = DEFAULTS[provider]
+        api_key = ""
+        json_mode = "schema"
+        if provider == "gemini":  # same variables as the researcher, so one key/model serves both
+            api_key, model, json_mode = _env("GEMINI_API_KEY", ""), _env("GEMINI_MODEL", model), "object"
         return cls(
             provider=provider,  # type: ignore[arg-type]
             base_url=_env("LLM_BASE_URL", base_url).rstrip("/"),
-            api_key=_env("LLM_API_KEY", ""),
+            api_key=_env("LLM_API_KEY", api_key),
             model=_env("LLM_MODEL", model),
             num_ctx=int(_env("LLM_NUM_CTX", "16384")),
-            json_mode=_env("LLM_JSON_MODE", "schema"),  # type: ignore[arg-type]
+            json_mode=_env("LLM_JSON_MODE", json_mode),  # type: ignore[arg-type]
             price_in_per_mtok=float(_env("LLM_PRICE_IN", "0")),
             price_out_per_mtok=float(_env("LLM_PRICE_OUT", "0")),
             timeout_s=float(_env("LLM_TIMEOUT", "180")),

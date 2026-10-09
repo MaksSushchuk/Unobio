@@ -11,6 +11,10 @@ from .answers import LensAnswer, ScienceAnswer
 from .validation import norm
 
 COMMON_FIELDS = set(LensAnswer.model_fields)
+# An aggregate (e.g. "A1: 100 landscape trials") cited by a claim expands to at most this many members;
+# expanding to all of them turned every claim into a 100-source citation.
+MAX_AGGREGATE_MEMBERS = 5
+SKIPPED_REASON = "no public evidence was routed to this lens"
 
 
 def to_lens_result(lens: Lens, answer: LensAnswer, ctx: RunContext) -> LensResult:
@@ -19,7 +23,7 @@ def to_lens_result(lens: Lens, answer: LensAnswer, ctx: RunContext) -> LensResul
     for c in answer.claims:
         refs: list[EvidenceRef] = []
         for r in c.evidence:
-            for full in ctx.resolve(norm(r.id)):  # an aggregate expands to all its members
+            for full in ctx.resolve(norm(r.id))[:MAX_AGGREGATE_MEMBERS]:  # an aggregate expands to its first members
                 if full not in {x.evidence_id for x in refs}:
                     refs.append(EvidenceRef(evidence_id=full, stance=r.stance))
         cid = claim_id(lens, c.text)
@@ -56,6 +60,18 @@ def _lens_params(answer: LensAnswer, ctx: RunContext) -> dict[str, Any]:
 
 def failed_result(lens: Lens, errors: list[str]) -> LensResult:
     return LensResult(lens=lens, status="failed", errors=errors[:10])
+
+
+def skipped_result(lens: Lens) -> LensResult:
+    """No evidence for the lens: no LLM call, the gap itself becomes a critical unknown."""
+    from .definitions import LENS_DEFS
+
+    title = LENS_DEFS[lens].title
+    return LensResult(lens=lens, status="skipped", errors=[SKIPPED_REASON], unknowns=[Unknown(
+        question=f"{title}: no public evidence was found for this indication and mechanism",
+        requires="proprietary_data",
+        why="The lens could not be assessed from public sources; the verdict cannot rely on it.",
+    )])
 
 
 def as_dict(model: BaseModel | None) -> dict[str, Any]:

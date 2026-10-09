@@ -72,9 +72,9 @@ async def analyze(bundle: EvidenceBundle, llm: LLMClient, options: RunOptions | 
     async def one(lens: Lens) -> tuple[Lens, LensRun]:
         emit(f"lens:{lens}", "started", {})
         run = await run_lens(lens, bundle, ctx, runner, opt.models.get(lens), opt.detail_round)
-        emit(f"lens:{lens}", "done" if run.result.status == "ok" else "error",
+        emit(f"lens:{lens}", "error" if run.result.status == "failed" else "done",
              {"score": run.result.score, "claims": len(run.result.claims), "attempts": len(run.traces),
-              "errors": run.result.errors[:2]})
+              "errors": run.result.errors[:2], "status": run.result.status})
         return lens, run
 
     lens_runs = dict(await asyncio.gather(*(one(lens) for lens in opt.lenses)))

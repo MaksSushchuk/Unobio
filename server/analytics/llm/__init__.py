@@ -5,7 +5,7 @@ from .base import LLMClient, LLMError, LLMRequest, LLMResponse, Message
 from .config import LLMSettings
 from .fake import FakeLLM
 from .json_utils import JSONExtractionError, extract_json
-from .providers import OllamaProvider, OpenAICompatProvider
+from .providers import GeminiProvider, OllamaProvider, OpenAICompatProvider
 from .resilient import ResilientLLM
 
 
@@ -18,11 +18,13 @@ def make_llm(settings: LLMSettings | None = None, fake: FakeLLM | None = None) -
             default={"note": "FakeLLM default answer — set LLM_PROVIDER to use a real model"},
         )
         return ResilientLLM(inner, max_concurrency=s.max_concurrency, cache_path=None)
-    inner = OllamaProvider(s) if s.provider == "ollama" else OpenAICompatProvider(s)
+    if s.provider == "gemini" and not s.api_key:
+        raise ValueError("LLM_PROVIDER=gemini needs GEMINI_API_KEY (or LLM_API_KEY) in server/.env")
+    inner = {"ollama": OllamaProvider, "gemini": GeminiProvider}.get(s.provider, OpenAICompatProvider)(s)
     return ResilientLLM(inner, max_concurrency=s.max_concurrency, cache_path=s.cache_path if s.cache_enabled else None)
 
 
 __all__ = [
     "LLMClient", "LLMError", "LLMRequest", "LLMResponse", "Message", "LLMSettings", "FakeLLM",
-    "JSONExtractionError", "extract_json", "OllamaProvider", "OpenAICompatProvider", "ResilientLLM", "make_llm",
+    "JSONExtractionError", "extract_json", "GeminiProvider", "OllamaProvider", "OpenAICompatProvider", "ResilientLLM", "make_llm",
 ]

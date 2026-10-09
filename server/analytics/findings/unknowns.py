@@ -18,7 +18,7 @@ def merge_unknowns(bundle: EvidenceBundle, lenses: dict[Lens, LensResult]) -> li
     candidates: list[Unknown] = []
     for lens in LENSES:
         r = lenses.get(lens)
-        if r is not None and r.status == "ok":
+        if r is not None and r.status in ("ok", "skipped"):
             candidates += r.unknowns
     candidates += [Unknown(question=g.question, requires=g.requires, why=g.reason) for g in bundle.gaps]
 
